@@ -1,5 +1,5 @@
 #!flask/bin/python
-from flask import Flask
+from flask import Flask, jsonify
 from brightpilib import *
 import picamera
 from time import sleep
@@ -21,7 +21,9 @@ def takePicture(option):
     camera.capture('image1.jpg')
     sleep(5)
     brightPi.set_led_on_off(LED_IR, OFF)
-
+    resp = jsonify(success=True)
+    resp.status_code = 200
+    return resp
 
 if (__name__ == '__main__'):
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=80)

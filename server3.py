@@ -61,9 +61,7 @@ def gen():
                 yield (b'--frame\r\n'
                         b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
     except Exception as e:
-        logging.warning(
-            'Removed streaming client %s: %s',
-            self.client_address, str(e))
+        logging.warning('Removed streaming client')
 
 
 

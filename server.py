@@ -40,16 +40,16 @@ def gen():
 
             while True:
                 camera.capture(stream, 'bgr', use_video_port=True)
-                # stream.array now contains the image data in BGR order
-                #cv2.imshow('frame', stream.array)
-                #if cv2.waitKey(1) & 0xFF == ord('q'):
-                #    break
-                #cv2.imwrite('pic.jpg',stream.array)
-                # reset the stream before the next capture
-                #stream.seek(0)
-                #stream.truncate()
-                #yield (b'--frame\r\n'
-                    #b'Content-Type: image/jpeg\r\n\r\n' + open('pic.jpg', 'rb').read() + b'\r\n')
+                stream.array now contains the image data in BGR order
+                cv2.imshow('frame', stream.array)
+                if cv2.waitKey(1) & 0xFF == ord('q'):
+                   break
+                cv2.imwrite('pic.jpg',stream.array)
+                reset the stream before the next capture
+                stream.seek(0)
+                stream.truncate()
+                yield (b'--frame\r\n'
+                    b'Content-Type: image/jpeg\r\n\r\n' + open('pic.jpg', 'rb').read() + b'\r\n')
 
 #   while True: 
 #       rval, frame = vc.read() 

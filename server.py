@@ -30,7 +30,7 @@ def takePicture(option):
     resp = jsonify(success=True)
     resp.status_code = 200
     return resp
-    
+
 def gen(): 
    """Video streaming generator function.""" 
    while True: 
@@ -49,5 +49,5 @@ if (__name__ == '__main__'):
     app.run(host='0.0.0.0', port=80)
 
 
-
+#sudo  LD_PRELOAD=/usr/lib/arm-linux-gnueabihf/libatomic.so.1.2.0  python3 server.py
 

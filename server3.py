@@ -29,6 +29,7 @@ brightPi = BrightPi()
 brightPi.reset()
 camera = picamera.PiCamera()
 output = StreamingOutput()
+camera.start_recording(output, format='mjpeg')
 
 @app.route('/')
 def index():
@@ -46,9 +47,8 @@ def takePicture(option):
     resp.status_code = 200
     return resp
 
-@app.route('/stream')
+@app.route('/stream.mjpg')
 def sendStream():
-    camera.start_recording(output, format='mjpeg')
     return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame') 
 
 def gen():
@@ -57,6 +57,7 @@ def gen():
             with output.condition:
                 output.condition.wait()
                 frame = output.frame
+                logging.warning(fame)
                 yield (b'--frame\r\n'
                         b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
     except Exception as e:

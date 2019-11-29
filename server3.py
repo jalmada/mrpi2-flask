@@ -57,7 +57,7 @@ def gen():
             with output.condition:
                 output.condition.wait()
                 frame = output.frame
-                logging.warning(fame)
+                logging.warning(frame)
                 yield (b'--frame\r\n'
                         b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
     except Exception as e:

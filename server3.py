@@ -35,6 +35,22 @@ camera.start_recording(output, format='mjpeg')
 def index():
     return render_template('index.html') 
 
+@app.route('/dark', methods=['POST'])
+def dark():
+    try:
+        req_data = request.get_json()
+        logging.info(data)
+        brightPi.reset()
+        isIROn = brightPi.get_led_on_off(LED_IR)
+        ledONOFF = OFF
+        if(isIROn == OFF):
+            ledONOFF = ON
+        brightPi.set_led_on_off(LED_IR, ledONOFF)
+    except Exception as e:
+        logging.error(e) 
+
+
+
 @app.route('/photo/<option>')
 def takePicture(option):
     if(option == 'dark'):
@@ -61,8 +77,6 @@ def gen():
                         b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
     except Exception as e:
         logging.warning(e)
-
-
 
 if (__name__ == '__main__'):
     app.run(host='0.0.0.0', port=80)

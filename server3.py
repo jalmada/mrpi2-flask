@@ -5,6 +5,7 @@ from time import sleep
 import io
 import logging
 from threading import Condition
+from datetime import datetime
 
 class StreamingOutput(object):
     def __init__(self):
@@ -54,8 +55,10 @@ def dark():
 
 
 @app.route('/photo')
-def takePicture(option):
-    camera.capture('image1.jpg')
+def takePicture():
+    today = datetime.now()	
+    fileName = today.strftime("%Y-%m-%d-%H_%M_%S")
+    camera.capture(f'./captures/{fileName}.jpg')
     resp = jsonify(success=True)
     resp.status_code = 200
     return resp

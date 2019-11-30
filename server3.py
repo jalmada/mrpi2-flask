@@ -46,7 +46,7 @@ def dark():
         ledONOFF = OFF
         if(isIROn == OFF):
             ledONOFF = ON
-        logging.info(iledONOFFsIROn)
+        logging.info(isIROn)
         
         brightPi.set_led_on_off(LED_IR, ledONOFF)
         resp = jsonify(success=True)

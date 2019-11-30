@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, Response 
+from flask import Flask, jsonify, render_template, Response, request
 from brightpilib import *
 import picamera
 from time import sleep
@@ -46,6 +46,9 @@ def dark():
         if(isIROn == OFF):
             ledONOFF = ON
         brightPi.set_led_on_off(LED_IR, ledONOFF)
+        resp = jsonify(success=True)
+        resp.status_code = 200
+        return resp
     except Exception as e:
         logging.error(e) 
 

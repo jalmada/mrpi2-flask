@@ -38,12 +38,13 @@ def index():
 @app.route('/dark', methods=['POST'])
 def dark():
     try:
-        isIROn = brightPi.get_led_on_off(LED_IR)[0]
-        ledONOFF = OFF
-        if(isIROn == OFF):
-            ledONOFF = ON
-        
-        brightPi.set_led_on_off(LED_IR, ledONOFF)
+        ledsStaus = brightPi.get_led_on_off(LED_IR)
+        isON = all(led == 1 for led in ledsStaus)
+        if(isON):
+            brightPi.set_led_on_off(LED_IR, OFF)
+        else:
+            brightPi.set_led_on_off(LED_IR, ON)
+
         resp = jsonify(success=True)
         resp.status_code = 200
         return resp

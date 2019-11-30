@@ -38,15 +38,11 @@ def index():
 @app.route('/dark', methods=['POST'])
 def dark():
     try:
-        req_data = request.get_json()
-        logging.info(req_data)
         brightPi.reset()
-        isIROn = brightPi.get_led_on_off(LED_IR)
-        logging.info(isIROn)
+        isIROn = brightPi.get_led_on_off(LED_IR)[0]
         ledONOFF = OFF
         if(isIROn == OFF):
             ledONOFF = ON
-        logging.info(isIROn)
         
         brightPi.set_led_on_off(LED_IR, ledONOFF)
         resp = jsonify(success=True)

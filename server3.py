@@ -38,7 +38,6 @@ def index():
 @app.route('/dark', methods=['POST'])
 def dark():
     try:
-        brightPi.reset()
         isIROn = brightPi.get_led_on_off(LED_IR)[0]
         ledONOFF = OFF
         if(isIROn == OFF):

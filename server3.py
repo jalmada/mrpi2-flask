@@ -39,7 +39,9 @@ def index():
 def dark():
     try:
         ledsStaus = brightPi.get_led_on_off(LED_IR)
-        isON = all(led == 1 for led in ledsStaus)
+        isON = not all(led == 0 for led in ledsStaus)
+        print(ledsStaus)
+        print(isON)
         if(isON):
             brightPi.set_led_on_off(LED_IR, OFF)
         else:

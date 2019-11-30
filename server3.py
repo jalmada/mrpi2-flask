@@ -42,9 +42,12 @@ def dark():
         logging.info(req_data)
         brightPi.reset()
         isIROn = brightPi.get_led_on_off(LED_IR)
+        logging.info(isIROn)
         ledONOFF = OFF
         if(isIROn == OFF):
             ledONOFF = ON
+        logging.info(iledONOFFsIROn)
+        
         brightPi.set_led_on_off(LED_IR, ledONOFF)
         resp = jsonify(success=True)
         resp.status_code = 200

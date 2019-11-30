@@ -40,8 +40,6 @@ def dark():
     try:
         ledsStaus = brightPi.get_led_on_off(LED_IR)
         isON = not all(led == 0 for led in ledsStaus)
-        print(ledsStaus)
-        print(isON)
         if(isON):
             brightPi.set_led_on_off(LED_IR, OFF)
         else:
@@ -55,14 +53,9 @@ def dark():
 
 
 
-@app.route('/photo/<option>')
+@app.route('/photo')
 def takePicture(option):
-    if(option == 'dark'):
-        brightPi.reset()
-        brightPi.set_led_on_off(LED_IR, ON)
     camera.capture('image1.jpg')
-    sleep(5)
-    brightPi.set_led_on_off(LED_IR, OFF)
     resp = jsonify(success=True)
     resp.status_code = 200
     return resp

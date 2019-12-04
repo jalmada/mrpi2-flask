@@ -7,6 +7,9 @@
       <img src="stream.mjpg"> 
       <button onclick="toggleDarkMode()">Dark Mode</button>
       <button onclick="takePicture()">Photo</button>
+      <input id="dim" type="number" name="quantity" min="0" max="50" onchange="setDim(this.value)">
+      <input id="gain" type="number" name="quantity" min="0" max="16" onchange="setDim(this.value)">
+
       <!-- <audio controls>
           <source src="audio" type="audio/x-wav;codec=pcm">
           Your browser does not support the audio element.
@@ -23,7 +26,27 @@
             });
           }
           function toggleDarkMode(){  
-            axios.post('/dark', {status: 'on'})
+            axios.post('/setGain', {gain: ''})
+              .then(function (response) {
+                console.log(response);
+              })
+            .catch(function (error) {
+              console.log(error);
+            });
+          }
+          function setDim(){
+            //alert( document.getElementById("dim").value);
+            axios.post('/setDim', {dim: document.getElementById("dim").value})
+              .then(function (response) {
+                console.log(response);
+              })
+            .catch(function (error) {
+              console.log(error);
+            });
+          }
+          function setGain(){
+            //alert( document.getElementById("gain").value);
+            axios.post('/setGain', {gain: document.getElementById("gain").value})
               .then(function (response) {
                 console.log(response);
               })

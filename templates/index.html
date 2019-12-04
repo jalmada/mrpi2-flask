@@ -8,7 +8,7 @@
       <button onclick="toggleDarkMode()">Dark Mode</button>
       <button onclick="takePicture()">Photo</button>
       <input id="dim" type="number" name="quantity" min="0" max="50" onchange="setDim(this.value)">
-      <input id="gain" type="number" name="quantity" min="0" max="16" onchange="setDim(this.value)">
+      <input id="gain" type="number" name="quantity" min="0" max="16" onchange="setGain(this.value)">
 
       <!-- <audio controls>
           <source src="audio" type="audio/x-wav;codec=pcm">
@@ -26,7 +26,7 @@
             });
           }
           function toggleDarkMode(){  
-            axios.post('/setGain', {gain: ''})
+            axios.post('/datk', {gain: ''})
               .then(function (response) {
                 console.log(response);
               })

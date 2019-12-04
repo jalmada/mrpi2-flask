@@ -86,13 +86,17 @@ def setGain():
     logging.error(data.gain)    
     brightPi.set_gain(data.gain)
 
+    resp = jsonify(success=True)
+    resp.status_code = 200
+
 @app.route('/setDim', methods=['POST'])
-def setGain(dim):
+def setDim():
     data = request.get_json()
     logging.error(data.dim)    
     brightPi.set_led_dim(LED_IR, data.dim)
 
-
+    resp = jsonify(success=True)
+    resp.status_code = 200
 
 @app.route('/photo')
 def takePicture():

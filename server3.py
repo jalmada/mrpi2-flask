@@ -83,15 +83,11 @@ def dark():
 @app.route('/gain', methods=['POST','GET'])
 def setGain():
     data = request.get_json()
-
-    direction = data["direction"]
     currentGain = brightPi.get_gain()
 
     if (request.method == 'POST'):
-        if(currentGain == 16):
-            resp = jsonify(success=True)
-            resp.status_code = 200
-            return resp
+        direction = data["direction"]
+
         if(direction == "up"):
             currentGain = currentGain + 1
         else:
@@ -103,13 +99,22 @@ def setGain():
     resp.status_code = 200
     return resp
 
-@app.route('/setDim', methods=['POST'])
+@app.route('/dim', methods=['POST','GET'])
 def setDim():
     data = request.get_json()
-    logging.error(data["dim"])    
-    brightPi.set_led_dim(LED_IR, data.dim)
+    currentDim = brightPi.get_led_dim(LED_IR)[0]
 
-    resp = jsonify(success=True)
+    if (request.method == 'POST'):
+        direction = data["direction"]
+
+        if(direction == "up"):
+            currentDim = currentDim + 1
+        else:
+            currentDim = currentDim - 1
+     
+        brightPi.set_led_dim(LED_IR, data.dim)
+
+    resp = jsonify(currentDim=currentDim, success=True)
     resp.status_code = 200
 
 @app.route('/photo')

@@ -10,6 +10,9 @@
       <button onclick="setGain('up')">Gain Up</button>
       <label id="gain">0</label>
       <button onclick="setGain('down')">Gain Down</button>
+      <button onclick="setDim('up')">Dim Up</button>
+      <label id="dim">0</label>
+      <button onclick="setDim('down')">Dim Down</button>
 
       <!-- <audio controls>
           <source src="audio" type="audio/x-wav;codec=pcm">
@@ -37,8 +40,20 @@
           }
           function setDim(){
             //alert( document.getElementById("dim").value);
-            axios.post('/setDim', {direction: document.getElementById("dim").value})
+            axios.post('/dim', {direction: document.getElementById("dim").value})
               .then(function (response) {
+                document.getElementById("dim").innerHTML = response.data.currentDim;
+                console.log(response);
+              })
+            .catch(function (error) {
+              console.log(error);
+            });
+          }
+          function getDim(){
+            //alert( document.getElementById("dim").value);
+            axios.get('/dim')
+              .then(function (response) {
+                document.getElementById("dim").innerHTML = response.data.currentDim;
                 console.log(response);
               })
             .catch(function (error) {
@@ -49,7 +64,7 @@
             //alert( document.getElementById("gain").value);
             axios.get('/gain')
               .then(function (response) {
-                document.getElementById("gain").innerHTML = response.currentGain;
+                document.getElementById("gain").innerHTML = response.data.currentGain;
                 console.log(response);
               })
             .catch(function (error) {
@@ -60,7 +75,7 @@
             //alert( document.getElementById("gain").value);
             axios.post('/gain', {direction: direction})
               .then(function (response) {
-                document.getElementById("gain").innerHTML = response.currentGain;
+                document.getElementById("gain").innerHTML = response.data.currentGain;
                 console.log(response);
               })
             .catch(function (error) {

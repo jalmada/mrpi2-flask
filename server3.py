@@ -80,19 +80,27 @@ def dark():
     except Exception as e:
         logging.error(e) 
 
-@app.route('/setGain', methods=['POST'])
+@app.route('/gain', methods=['POST','GET'])
 def setGain():
     data = request.get_json()
-    logging.error(data.gain)    
-    brightPi.set_gain(data.gain)
+    direction = data["direction"]
+    currentGain = brightPi.get_gain()
 
-    resp = jsonify(success=True)
+    if (request.method == 'POST'):
+        if(direction == "up"):
+            currentGain = currentGain + 1
+        else:
+            currentGain = currentGain - 1
+
+        brightPi.set_gain(currentGain)
+
+    resp = jsonify(gain=currentGain, success=True)
     resp.status_code = 200
 
 @app.route('/setDim', methods=['POST'])
 def setDim():
     data = request.get_json()
-    logging.error(data.dim)    
+    logging.error(data["dim"])    
     brightPi.set_led_dim(LED_IR, data.dim)
 
     resp = jsonify(success=True)

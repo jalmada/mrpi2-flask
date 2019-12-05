@@ -7,8 +7,9 @@
       <img src="stream.mjpg"> 
       <button onclick="toggleDarkMode()">Dark Mode</button>
       <button onclick="takePicture()">Photo</button>
-      <input id="dim" type="number" name="quantity" min="0" max="50" onchange="setDim(this.value)">
-      <input id="gain" type="number" name="quantity" min="0" max="16" onchange="setGain(this.value)">
+      <button onclick="setGain('up')">Gain Up</button>
+      <label id="gain">0</label>
+      <button onclick="setGain('down')">Gain Down</button>
 
       <!-- <audio controls>
           <source src="audio" type="audio/x-wav;codec=pcm">
@@ -36,7 +37,7 @@
           }
           function setDim(){
             //alert( document.getElementById("dim").value);
-            axios.post('/setDim', {dim: document.getElementById("dim").value})
+            axios.post('/setDim', {direction: document.getElementById("dim").value})
               .then(function (response) {
                 console.log(response);
               })
@@ -44,16 +45,32 @@
               console.log(error);
             });
           }
-          function setGain(){
+          function getGain(){
             //alert( document.getElementById("gain").value);
-            axios.post('/setGain', {gain: document.getElementById("gain").value})
+            axios.get('/gain')
               .then(function (response) {
+                document.getElementById("gain").innerHTML = response.currentGain;
                 console.log(response);
               })
             .catch(function (error) {
               console.log(error);
             });
           }
+          function setGain(direction){
+            //alert( document.getElementById("gain").value);
+            axios.post('/gain', {gain: direction})
+              .then(function (response) {
+                document.getElementById("gain").innerHTML = response.currentGain;
+                console.log(response);
+              })
+            .catch(function (error) {
+              console.log(error);
+            });
+          }
+
+          (() => {
+            getGain();
+          })()
         </script>
     </body> 
    </html> 

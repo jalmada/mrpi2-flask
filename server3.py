@@ -88,7 +88,7 @@ def gain():
     if (request.method == 'POST'):
         direction = data["direction"]
 
-        if((currentGain == 0 and direction == 'down') or (currentGain == BrightPi._max_gain and and direction == 'up')):
+        if((currentGain == 0 and direction == 'down') or (currentGain == BrightPi._max_gain and direction == 'up')):
             resp = jsonify(currentGain=currentGain, success=True)
             resp.status_code = 200
             return resp
@@ -114,7 +114,7 @@ def dim():
     if (request.method == 'POST'):
         direction = data["direction"]
 
-        if((currentDim == 0 and direction == 'down') or (currentDim == BrightPi._max_dim and and direction == 'up')):
+        if((currentDim == 0 and direction == 'down') or (currentDim == BrightPi._max_dim and direction == 'up')):
             resp = jsonify(currentDim=currentDim, success=True)
             resp.status_code = 200
             return resp

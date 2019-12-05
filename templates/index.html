@@ -38,9 +38,9 @@
               console.log(error);
             });
           }
-          function setDim(){
+          function setDim(direction){
             //alert( document.getElementById("dim").value);
-            axios.post('/dim', {direction: document.getElementById("dim").value})
+            axios.post('/dim', {direction: direction})
               .then(function (response) {
                 document.getElementById("dim").innerHTML = response.data.currentDim;
                 console.log(response);

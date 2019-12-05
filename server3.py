@@ -102,7 +102,7 @@ def setGain():
 @app.route('/dim', methods=['POST','GET'])
 def setDim():
     data = request.get_json()
-    currentDim = brightPi.get_led_dim(LED_IR)[0]
+    currentDim = brightPi.get_led_dim()[0]
 
     if (request.method == 'POST'):
         direction = data["direction"]
@@ -112,10 +112,11 @@ def setDim():
         else:
             currentDim = currentDim - 1
      
-        brightPi.set_led_dim(LED_IR, data.dim)
+        brightPi.set_led_dim(LED_IR, currentDim)
 
     resp = jsonify(currentDim=currentDim, success=True)
     resp.status_code = 200
+    return resp
 
 @app.route('/photo')
 def takePicture():

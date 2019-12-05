@@ -58,7 +58,7 @@
           }
           function setGain(direction){
             //alert( document.getElementById("gain").value);
-            axios.post('/gain', {gain: direction})
+            axios.post('/gain', {direction: direction})
               .then(function (response) {
                 document.getElementById("gain").innerHTML = response.currentGain;
                 console.log(response);

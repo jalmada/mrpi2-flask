@@ -83,10 +83,15 @@ def dark():
 @app.route('/gain', methods=['POST','GET'])
 def setGain():
     data = request.get_json()
+
     direction = data["direction"]
     currentGain = brightPi.get_gain()
 
     if (request.method == 'POST'):
+        if(currentGain == 16):
+            resp = jsonify(success=True)
+            resp.status_code = 200
+            return resp
         if(direction == "up"):
             currentGain = currentGain + 1
         else:
@@ -94,8 +99,9 @@ def setGain():
 
         brightPi.set_gain(currentGain)
 
-    resp = jsonify(gain=currentGain, success=True)
+    resp = jsonify(currentGain=currentGain, success=True)
     resp.status_code = 200
+    return resp
 
 @app.route('/setDim', methods=['POST'])
 def setDim():

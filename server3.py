@@ -109,8 +109,6 @@ def dim():
     data = request.get_json()
     currentDim = brightPi.get_led_dim()[0]
 
-   
-
     if (request.method == 'POST'):
         direction = data["direction"]
 

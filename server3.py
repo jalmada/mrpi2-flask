@@ -81,9 +81,14 @@ def dark():
         logging.error(e) 
 
 @app.route('/gain', methods=['POST','GET'])
-def setGain():
+def gain():
     data = request.get_json()
     currentGain = brightPi.get_gain()
+
+    if(currentGain == 0 or currentGain == BrightPi._max_gain):
+        resp = jsonify(currentGain=currentGain, success=True)
+        resp.status_code = 200
+        return resp
 
     if (request.method == 'POST'):
         direction = data["direction"]
@@ -100,9 +105,14 @@ def setGain():
     return resp
 
 @app.route('/dim', methods=['POST','GET'])
-def setDim():
+def dim():
     data = request.get_json()
     currentDim = brightPi.get_led_dim()[0]
+
+    if(currentDim == 0 or currentDim == BrightPi._max_dim):
+        resp = jsonify(currentDim=currentDim, success=True)
+        resp.status_code = 200
+        return resp
 
     if (request.method == 'POST'):
         direction = data["direction"]

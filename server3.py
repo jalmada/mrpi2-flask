@@ -74,7 +74,23 @@ def dark():
         else:
             brightPi.set_led_on_off(LED_IR, ON)
 
-        resp = jsonify(success=True)
+        resp = jsonify(isON=isON, success=True)
+        resp.status_code = 200
+        return resp
+    except Exception as e:
+        logging.error(e)
+
+@app.route('/light', methods=['POST'])
+def light():
+    try:
+        ledsStaus = brightPi.get_led_on_off(LED_WHITE)
+        isON = not all(led == 0 for led in ledsStaus)
+        if(isON):
+            brightPi.set_led_on_off(LED_WHITE, OFF)
+        else:
+            brightPi.set_led_on_off(LED_WHITE, ON)
+
+        resp = jsonify(isON=isON, success=True)
         resp.status_code = 200
         return resp
     except Exception as e:
@@ -122,7 +138,7 @@ def dim():
         else:
             currentDim = currentDim - 1
      
-        brightPi.set_led_dim(LED_IR, currentDim)
+        brightPi.set_led_dim(LED_WHITE, currentDim)
 
     resp = jsonify(currentDim=currentDim, success=True)
     resp.status_code = 200

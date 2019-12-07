@@ -11,10 +11,10 @@
       <label id="lightStatus">OFF</label>
       <button onclick="takePicture()">Photo</button>
       <button onclick="setGain('up')">Gain Up</button>
-      <label id="gain">0</label>
+      <input type="text" id="gain" value= "0" />
       <button onclick="setGain('down')">Gain Down</button>
       <button onclick="setDim('up')">Dim Up</button>
-      <label id="dim">0</label>
+      <input type="text" id="dim" value= "0" />
       <button onclick="setDim('down')">Dim Down</button>
 
       <!-- <audio controls>
@@ -56,7 +56,7 @@
             //alert( document.getElementById("dim").value);
             axios.post('/dim', {direction: direction})
               .then(function (response) {
-                document.getElementById("dim").innerHTML = response.data.currentDim;
+                document.getElementById("dim").value = response.data.currentDim;
                 console.log(response);
               })
             .catch(function (error) {
@@ -67,7 +67,7 @@
             //alert( document.getElementById("dim").value);
             axios.get('/dim')
               .then(function (response) {
-                document.getElementById("dim").innerHTML = response.data.currentDim;
+                document.getElementById("dim").value = response.data.currentDim;
                 console.log(response);
               })
             .catch(function (error) {

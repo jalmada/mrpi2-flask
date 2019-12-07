@@ -70,7 +70,6 @@ def index():
 def dark():
     try:
         ledsStaus = brightPi.get_led_on_off(LED_IR)
-        print(ledsStaus)
         isON = any(led != 0 for led in ledsStaus)
         if(isON):
             brightPi.set_led_on_off(LED_IR, OFF)
@@ -87,7 +86,6 @@ def dark():
 def light():
     try:
         ledsStaus = brightPi.get_led_on_off(LED_WHITE)
-        print(ledsStaus)
         isON = any(led != 0 for led in ledsStaus)
         if(isON):
             brightPi.set_led_on_off(LED_WHITE, OFF)
@@ -108,15 +106,25 @@ def gain():
     if (request.method == 'POST'):
         direction = data["direction"]
 
-        if((currentGain == 0 and direction == 'down') or (currentGain == BrightPi._max_gain and direction == 'up')):
-            resp = jsonify(currentGain=currentGain, success=True)
-            resp.status_code = 200
-            return resp
+        if(not direction ):
+            gain = data["gain"]
 
-        if(direction == "up"):
-            currentGain = currentGain + 1
+            if(not gain):
+                resp = jsonify(success=False)
+                resp.status_code = 400
+                return resp
+
+            currentGain = gain
         else:
-            currentGain = currentGain - 1
+            if((currentGain == 0 and direction == 'down') or (currentGain == BrightPi._max_gain and direction == 'up')):
+                resp = jsonify(currentGain=currentGain, success=True)
+                resp.status_code = 200
+                return resp
+
+            if(direction == "up"):
+                currentGain = currentGain + 1
+            else:
+                currentGain = currentGain - 1
 
         brightPi.set_gain(currentGain)
 
@@ -132,15 +140,26 @@ def dim():
     if (request.method == 'POST'):
         direction = data["direction"]
 
-        if((currentDim == 0 and direction == 'down') or (currentDim == BrightPi._max_dim and direction == 'up')):
-            resp = jsonify(currentDim=currentDim, success=True)
-            resp.status_code = 200
-            return resp
+         if(not direction ):
+            dim = data["dim"]
 
-        if(direction == "up"):
-            currentDim = currentDim + 1
+            if(not dim):
+                resp = jsonify(success=False)
+                resp.status_code = 400
+                return resp
+
+            currentDim = dim
         else:
-            currentDim = currentDim - 1
+
+            if((currentDim == 0 and direction == 'down') or (currentDim == BrightPi._max_dim and direction == 'up')):
+                resp = jsonify(currentDim=currentDim, success=True)
+                resp.status_code = 200
+                return resp
+
+            if(direction == "up"):
+                currentDim = currentDim + 1
+            else:
+                currentDim = currentDim - 1
      
         brightPi.set_led_dim(LED_WHITE_DIM, currentDim)
         brightPi.set_led_dim(LED_IR_DIM, currentDim)

@@ -78,7 +78,7 @@
             //alert( document.getElementById("gain").value);
             axios.get('/gain')
               .then(function (response) {
-                document.getElementById("gain").innerHTML = response.data.currentGain;
+                document.getElementById("gain").value = response.data.currentGain;
                 console.log(response);
               })
             .catch(function (error) {
@@ -89,7 +89,7 @@
             //alert( document.getElementById("gain").value);
             axios.post('/gain', {direction: direction})
               .then(function (response) {
-                document.getElementById("gain").innerHTML = response.data.currentGain;
+                document.getElementById("gain").value = response.data.currentGain;
                 console.log(response);
               })
             .catch(function (error) {

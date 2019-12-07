@@ -52,9 +52,9 @@
               console.log(error);
             });
           }
-          function setDim(direction){
+          function setDim(direction, dim){
             //alert( document.getElementById("dim").value);
-            axios.post('/dim', {direction: direction})
+            axios.post('/dim', {direction: direction, dim: dim})
               .then(function (response) {
                 document.getElementById("dim").value = response.data.currentDim;
                 console.log(response);
@@ -85,9 +85,9 @@
               console.log(error);
             });
           }
-          function setGain(direction){
+          function setGain(direction, gain){
             //alert( document.getElementById("gain").value);
-            axios.post('/gain', {direction: direction})
+            axios.post('/gain', {direction: direction, gain: gain})
               .then(function (response) {
                 document.getElementById("gain").value = response.data.currentGain;
                 console.log(response);
@@ -96,6 +96,23 @@
               console.log(error);
             });
           }
+          var gainInput = document.getElementById("gain");
+          gainInput.addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+              event.preventDefault();
+              var gain = document.getElementById("gain").value;
+              setGain(direction, gain);
+            }
+          });
+
+          var dimInput = document.getElementById("dim");
+          dimInput.addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+              event.preventDefault();
+              var dim = document.getElementById("dim").value;
+              setDim(direction, dim);
+            }
+          });
 
           (() => {
             getGain();

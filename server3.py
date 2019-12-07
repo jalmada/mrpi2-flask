@@ -208,7 +208,7 @@ def audio():
         CHUNK = 1024
         sampleRate = 44100
         bitsPerSample = 16
-        channels = 2
+        channels = 1
         wav_header = genHeader(sampleRate, bitsPerSample, channels)
 
         stream = audio1.open(format=FORMAT, channels=CHANNELS,

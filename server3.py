@@ -140,7 +140,7 @@ def dim():
     if (request.method == 'POST'):
         direction = data["direction"]
 
-         if(not direction ):
+        if(not direction ):
             dim = data["dim"]
 
             if(not dim):

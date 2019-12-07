@@ -77,7 +77,7 @@ def dark():
         else:
             brightPi.set_led_on_off(LED_IR, ON)
 
-        resp = jsonify(isON=isON, success=True)
+        resp = jsonify(isON=(not isON), success=True)
         resp.status_code = 200
         return resp
     except Exception as e:
@@ -94,7 +94,7 @@ def light():
         else:
             brightPi.set_led_on_off(LED_WHITE, ON)
 
-        resp = jsonify(isON=isON, success=True)
+        resp = jsonify(isON=(not isON), success=True)
         resp.status_code = 200
         return resp
     except Exception as e:

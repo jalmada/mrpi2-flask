@@ -114,6 +114,9 @@ def gain():
                 resp.status_code = 400
                 return resp
 
+            if(gain < 0 or gain >  BrightPi._max_gain):
+                gain = currentGain
+
             currentGain = gain
         else:
             if((currentGain == 0 and direction == 'down') or (currentGain == BrightPi._max_gain and direction == 'up')):
@@ -143,10 +146,13 @@ def dim():
         if(not direction ):
             dim = data["dim"]
 
-            if(not dim):
+            if(not dim or dim < 0 or dim >  BrightPi._max_dim):
                 resp = jsonify(success=False)
                 resp.status_code = 400
                 return resp
+
+            if(dim < 0 or dim > BrightPi._max_gain):
+                dim = currentDim
 
             currentDim = dim
         else:

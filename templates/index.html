@@ -101,7 +101,7 @@
             if (event.keyCode === 13) {
               event.preventDefault();
               var gain = document.getElementById("gain").value;
-              setGain(direction, gain);
+              setGain(null, gain);
             }
           });
 
@@ -110,7 +110,7 @@
             if (event.keyCode === 13) {
               event.preventDefault();
               var dim = document.getElementById("dim").value;
-              setDim(direction, dim);
+              setDim(null, dim);
             }
           });
 

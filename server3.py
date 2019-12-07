@@ -200,7 +200,7 @@ def gen():
     except Exception as e:
         logging.warning(e)
 
-@app.route('/audio.wav')
+@app.route('/audio')
 def audio():
     # start Recording
     def sound():

@@ -8,7 +8,7 @@ from threading import Condition
 from datetime import datetime
 import pyaudio
 
-FORMAT = pyaudio.paFloat32
+FORMAT = pyaudio.paInt16
 CHANNELS = 1
 RATE = 44100
 CHUNK = 1024
@@ -221,7 +221,7 @@ def audio():
             data = wav_header+stream.read(CHUNK)
             yield(data)
 
-    return Response(sound())
+    return Response(sound(), mimetype="audio/x-wav")
 
 
 

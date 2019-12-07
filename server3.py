@@ -73,9 +73,9 @@ def dark():
         print(ledsStaus)
         isON = any(led != 0 for led in ledsStaus)
         if(isON):
-            brightPi.set_led_on_off(LED_IR, ON)
-        else:
             brightPi.set_led_on_off(LED_IR, OFF)
+        else:
+            brightPi.set_led_on_off(LED_IR, ON)
 
         resp = jsonify(isON=isON, success=True)
         resp.status_code = 200
@@ -90,9 +90,9 @@ def light():
         print(ledsStaus)
         isON = any(led != 0 for led in ledsStaus)
         if(isON):
-            brightPi.set_led_on_off(LED_WHITE, ON)
-        else:
             brightPi.set_led_on_off(LED_WHITE, OFF)
+        else:
+            brightPi.set_led_on_off(LED_WHITE, ON)
 
         resp = jsonify(isON=isON, success=True)
         resp.status_code = 200

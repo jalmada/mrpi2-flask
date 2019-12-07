@@ -6,9 +6,9 @@
       <h1> Live Video Streaming </h1> 
       <img src="stream.mjpg"> 
       <button onclick="toggleDarkMode()">Dark Mode</button>
-      <label id="darkStatus">Off</label>
+      <label id="darkStatus">OFF</label>
       <button onclick="toggleLightMode()">Light Mode</button>
-      <label id="lightStatus">Off</label>
+      <label id="lightStatus">OFF</label>
       <button onclick="takePicture()">Photo</button>
       <button onclick="setGain('up')">Gain Up</button>
       <label id="gain">0</label>
@@ -35,7 +35,7 @@
           function toggleDarkMode(){  
             axios.post('/dark')
               .then(function (response) {
-                document.getElementById("darkStatus").innerHTML = response.data.isON;
+                document.getElementById("darkStatus").innerHTML = response.data.isON  ? "ON" : "OFF";
                 console.log(response);
               })
             .catch(function (error) {
@@ -45,7 +45,7 @@
           function toggleLightMode(){  
             axios.post('/light')
               .then(function (response) {
-                document.getElementById("lightStatus").innerHTML = response.data.isON;
+                document.getElementById("lightStatus").innerHTML = response.data.isON ? "ON" : "OFF";
                 console.log(response);
               })
             .catch(function (error) {

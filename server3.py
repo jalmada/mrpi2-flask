@@ -31,6 +31,8 @@ class StreamingOutput(object):
             self.buffer.seek(0)
         return self.buffer.write(buf)
 
+LED_WHITE_DIM = (2,4,5,7)
+LED_IR_DIM = (1,3,6,8)
 
 app = Flask(__name__)
 brightPi = BrightPi()
@@ -138,7 +140,8 @@ def dim():
         else:
             currentDim = currentDim - 1
      
-        brightPi.set_led_dim(LED_WHITE, currentDim)
+        brightPi.set_led_dim(LED_WHITE_DIM, currentDim)
+        brightPi.set_led_dim(LED_IR_DIM, currentDim)
 
     resp = jsonify(currentDim=currentDim, success=True)
     resp.status_code = 200

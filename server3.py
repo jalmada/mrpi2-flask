@@ -212,15 +212,15 @@ def sound():
         while True:
             print(wav_header)
             data = wav_header+stream.read(CHUNK, exception_on_overflow = False)
-            yield (b'--frame\r\n'
-                        b'Content-Type: audio/wav\r\n\r\n' + data + b'\r\n')
-            #yield (data)
+            # yield (b'--frame\r\n'
+            #             b'Content-Type: audio/wav\r\n\r\n' + data + b'\r\n')
+            yield (data)
     except Exception as e:
         logging.warning(e)
 
 @app.route('/audio')
 def audio():   
-    return Response(sound(), mimetype='audio/wav; boundary=frame')
+    return Response(sound(), mimetype='audio/wav')
 
 
 

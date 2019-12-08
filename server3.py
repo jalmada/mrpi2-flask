@@ -11,8 +11,9 @@ import pyaudio
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
 RATE = 44100
-CHUNK = 1024
+CHUNK = 4096
 RECORD_SECONDS = 5
+BITS_PER_SANPLE = 16
 
 class StreamingOutput(object):
     def __init__(self):
@@ -205,11 +206,7 @@ def audio():
     # start Recording
     def sound():
 
-        CHUNK = 1024
-        sampleRate = 44100
-        bitsPerSample = 16
-        channels = 1
-        wav_header = genHeader(sampleRate, bitsPerSample, channels)
+        wav_header = genHeader(RATE, BITS_PER_SANPLE, CHANNELS)
 
         stream = audio1.open(format=FORMAT, channels=CHANNELS,
                         rate=RATE, input=True,input_device_index=2,

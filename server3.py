@@ -206,16 +206,16 @@ wav_header = genHeader(RATE, BITS_PER_SAMPLE, CHANNELS)
 stream = audio1.open(format=FORMAT, channels=CHANNELS,
                 rate=RATE, input=True,input_device_index=2,
                 frames_per_buffer=CHUNK)
-                
+
 @app.route('/audio')
 def sound():
     try:
         while True:
             print(wav_header)
             data = wav_header+stream.read(CHUNK)
-            yield (b'--frame\r\n'
-                        b'Content-Type: audio/wav\r\n\r\n' + data + b'\r\n')
-            #yield (data)
+            # yield (b'--frame\r\n'
+            #             b'Content-Type: audio/wav\r\n\r\n' + data + b'\r\n')
+            yield (data)
     except Exception as e:
         logging.warning(e)
 

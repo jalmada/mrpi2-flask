@@ -211,7 +211,7 @@ def sound():
     try:
         while True:
             print(wav_header)
-            data = wav_header+stream.read(CHUNK)
+            data = wav_header+stream.read(CHUNK, exception_on_overflow = False)
             yield (b'--frame\r\n'
                         b'Content-Type: audio/wav\r\n\r\n' + data + b'\r\n')
             #yield (data)

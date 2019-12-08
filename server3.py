@@ -13,7 +13,7 @@ CHANNELS = 1
 RATE = 44100
 CHUNK = 4096
 RECORD_SECONDS = 5
-BITS_PER_SANPLE = 16
+BITS_PER_SAMPLE = 16
 
 class StreamingOutput(object):
     def __init__(self):
@@ -45,8 +45,8 @@ currentLedDim = 0
 currentLedGain = 0
 audio1 = pyaudio.PyAudio()
 
-def genHeader(sampleRate, bitsPerSample, channels):
-    datasize = 2000*10**6
+def genHeader(sampleRate, bitsPerSample, channels, samples):
+    datasize = samples * channels * bitsPerSample // 8
     o = bytes("RIFF",'ascii')                                               # (4byte) Marks file as RIFF
     o += (datasize + 36).to_bytes(4,'little')                               # (4byte) File size in bytes excluding this and RIFF marker
     o += bytes("WAVE",'ascii')                                              # (4byte) File type
@@ -206,7 +206,7 @@ def audio():
     # start Recording
     def sound():
 
-        wav_header = genHeader(RATE, BITS_PER_SANPLE, CHANNELS)
+        wav_header = genHeader(RATE, BITS_PER_SAMPLE, CHANNELS, 200000)
 
         stream = audio1.open(format=FORMAT, channels=CHANNELS,
                         rate=RATE, input=True,input_device_index=2,
@@ -216,11 +216,9 @@ def audio():
 
         while True:
             data = wav_header+stream.read(CHUNK)
-            yield(data)
-
-    resp = Response(sound(), mimetype="audio/x-wav", )
-    resp.accept_ranges = 'bytes'
-    return resp
+            yield data
+            
+    return Response(sound(), mimetype="audio/x-wav")
 
 
 

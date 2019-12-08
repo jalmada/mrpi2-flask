@@ -8,13 +8,6 @@ from threading import Condition
 from datetime import datetime
 import pyaudio
 
-FORMAT = pyaudio.paInt16
-CHANNELS = 1
-RATE = 44100
-CHUNK = 1024
-RECORD_SECONDS = 5
-BITS_PER_SAMPLE = 16
-
 class StreamingOutput(object):
     def __init__(self):
         self.frame = None
@@ -43,6 +36,14 @@ output = StreamingOutput()
 camera.start_recording(output, format='mjpeg')
 currentLedDim = 0
 currentLedGain = 0
+
+
+FORMAT = pyaudio.paInt16
+CHANNELS = 1
+RATE = 44100
+CHUNK = 1024
+RECORD_SECONDS = 5
+BITS_PER_SAMPLE = 16
 audio1 = pyaudio.PyAudio()
 
 def genHeader(sampleRate, bitsPerSample, channels):
@@ -62,6 +63,11 @@ def genHeader(sampleRate, bitsPerSample, channels):
     o += (datasize).to_bytes(4,'little')                                    # (4byte) Data size in bytes
     return o
 
+wav_header = genHeader(RATE, BITS_PER_SAMPLE, CHANNELS)
+stream = audio1.open(format=FORMAT, channels=CHANNELS,
+                rate=RATE, input=True,input_device_index=2,
+                frames_per_buffer=CHUNK)
+print("streaming audio")
 
 @app.route('/')
 def index():
@@ -205,15 +211,6 @@ def gen():
 def audio():
     # start Recording
     def sound():
-
-        wav_header = genHeader(RATE, BITS_PER_SAMPLE, CHANNELS)
-
-        stream = audio1.open(format=FORMAT, channels=CHANNELS,
-                        rate=RATE, input=True,input_device_index=2,
-                        frames_per_buffer=CHUNK)
-        print("recording...")
-        #frames = []
-
         while True:
             data = wav_header+stream.read(CHUNK)
             yield(data)

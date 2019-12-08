@@ -218,7 +218,7 @@ def audio():
             data = wav_header+stream.read(CHUNK)
             yield(data)
             
-    return Response(sound(), mimetype="audio/x-wav; boundary=frame")
+    return Response(sound(), mimetype="audio/x-wav")
 
 
 

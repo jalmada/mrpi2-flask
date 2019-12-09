@@ -215,7 +215,7 @@ def sound():
 
 @app.route('/audio')
 def audio():   
-    return Response(sound(),  mimetype='audio/x-wav; boundary=frame')
+    return Response(sound(),  mimetype='audio/x-wav')
 
 
 

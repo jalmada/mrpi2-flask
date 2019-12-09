@@ -8,13 +8,6 @@ from threading import Condition
 from datetime import datetime
 import pyaudio
 
-FORMAT = pyaudio.paInt16
-CHANNELS = 1
-RATE = 44100
-CHUNK = 1024
-RECORD_SECONDS = 5
-BITS_PER_SAMPLE = 16
-
 class StreamingOutput(object):
     def __init__(self):
         self.frame = None
@@ -44,6 +37,16 @@ camera.start_recording(output, format='mjpeg')
 currentLedDim = 0
 currentLedGain = 0
 audio1 = pyaudio.PyAudio()
+
+FORMAT = pyaudio.paInt16
+CHANNELS = 1
+RATE = 44100
+CHUNK = 1024
+RECORD_SECONDS = 5
+BITS_PER_SAMPLE = 16
+
+wav_header = genHeader(RATE, BITS_PER_SAMPLE, CHANNELS)
+stream = audio1.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True,input_device_index=2, frames_per_buffer=CHUNK)
 
 def genHeader(sampleRate, bitsPerSample, channels):
     datasize = 2000*10**6
@@ -200,27 +203,19 @@ def gen():
                         b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
     except Exception as e:
         logging.warning(e)
-
-
-wav_header = genHeader(RATE, BITS_PER_SAMPLE, CHANNELS)
-stream = audio1.open(format=FORMAT, channels=CHANNELS,
-                rate=RATE, input=True,input_device_index=2,
-                frames_per_buffer=CHUNK)
                 
 def sound():
     try:
         while True:
             print(wav_header)
             data = wav_header+stream.read(CHUNK, exception_on_overflow = False)
-            # yield (b'--frame\r\n'
-            #             b'Content-Type: audio/wav\r\n\r\n' + data + b'\r\n')
             yield (data)
     except Exception as e:
         logging.warning(e)
 
 @app.route('/audio')
 def audio():   
-    return Response(sound(), mimetype='audio/wav')
+    return Response(sound())
 
 
 

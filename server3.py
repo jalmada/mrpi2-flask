@@ -206,7 +206,6 @@ def gen():
 def sound():
     try:
         while True:
-            print(wav_header)
             data = wav_header+stream.read(CHUNK, exception_on_overflow = False)
             yield (data)
     except Exception as e:
@@ -214,7 +213,7 @@ def sound():
 
 @app.route('/audio')
 def audio():   
-    return Response(sound())
+    return Response(sound(),  mimetype='multipart/x-mixed-replace')
 
 
 

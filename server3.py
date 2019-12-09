@@ -207,13 +207,15 @@ def sound():
     try:
         while True:
             data = wav_header+stream.read(CHUNK, exception_on_overflow = False)
-            yield (data)
+            yield (b'--frame\r\n'
+                b'Content-Type: audio/x-wav\r\n\r\n' + frame + b'\r\n')
+            # yield (data)
     except Exception as e:
         logging.warning(e)
 
 @app.route('/audio')
 def audio():   
-    return Response(sound(),  mimetype='multipart/x-mixed-replace')
+    return Response(sound(),  mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 

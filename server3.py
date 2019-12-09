@@ -223,8 +223,9 @@ def gen():
                 
 def sound():
     try:
+        yield(wav_header)
         while True:
-            data = wav_header+stream.read(CHUNK, exception_on_overflow = False)
+            data = stream.read(CHUNK, exception_on_overflow = False)
             #data = stream.read(CHUNK, exception_on_overflow = False)
             yield (data)
     except Exception as e:

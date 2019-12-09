@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, render_template, Response, request
+from flask import Flask, jsonify, render_template, Response, request, stream_with_context
 from brightpilib import *
 import picamera
 from time import sleep
@@ -213,7 +213,7 @@ def sound():
 
 @app.route('/audio')
 def audio():   
-    return Response(sound(),  mimetype='audio/x-wav')
+    return Response(stream_with_context(sound()),  mimetype='audio/x-wav')
 
 
 

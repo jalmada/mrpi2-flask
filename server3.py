@@ -41,7 +41,7 @@ audio1 = pyaudio.PyAudio()
 FORMAT = pyaudio.paInt32
 CHANNELS = 1
 RATE = 44100
-CHUNK = 512
+CHUNK = 128
 RECORD_SECONDS = 5
 BITS_PER_SAMPLE = 16
 

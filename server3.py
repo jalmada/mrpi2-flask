@@ -41,7 +41,7 @@ audio1 = pyaudio.PyAudio()
 FORMAT = pyaudio.paInt32
 CHANNELS = 1
 RATE = 44100
-CHUNK = 1024
+CHUNK = 4096
 BITS_PER_SAMPLE = 32
 
 def genHeader(sampleRate, bitsPerSample, channels):

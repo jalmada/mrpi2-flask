@@ -33,7 +33,7 @@ brightPi = BrightPi()
 brightPi.reset()
 camera = picamera.PiCamera()
 output = StreamingOutput()
-#camera.start_recording(output, format='mjpeg')
+camera.start_recording(output, format='mjpeg')
 currentLedDim = 0
 currentLedGain = 0
 audio1 = pyaudio.PyAudio()
@@ -41,7 +41,7 @@ audio1 = pyaudio.PyAudio()
 FORMAT = pyaudio.paInt32
 CHANNELS = 1
 RATE = 44100
-CHUNK = 128
+CHUNK = 4096
 RECORD_SECONDS = 5
 BITS_PER_SAMPLE = 16
 

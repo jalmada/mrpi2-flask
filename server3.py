@@ -38,10 +38,10 @@ currentLedDim = 0
 currentLedGain = 0
 audio1 = pyaudio.PyAudio()
 
-FORMAT = pyaudio.paFloat32
+FORMAT = pyaudio.paInt32
 CHANNELS = 1
 RATE = 44100
-CHUNK = 4096
+CHUNK = 1024
 BITS_PER_SAMPLE = 32
 
 def genHeader(sampleRate, bitsPerSample, channels):

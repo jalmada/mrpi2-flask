@@ -45,9 +45,6 @@ CHUNK = 1024
 RECORD_SECONDS = 5
 BITS_PER_SAMPLE = 16
 
-wav_header = genHeader(RATE, BITS_PER_SAMPLE, CHANNELS)
-stream = audio1.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True,input_device_index=2, frames_per_buffer=CHUNK)
-
 def genHeader(sampleRate, bitsPerSample, channels):
     datasize = 2000*10**6
     o = bytes("RIFF",'ascii')                                               # (4byte) Marks file as RIFF
@@ -65,6 +62,8 @@ def genHeader(sampleRate, bitsPerSample, channels):
     o += (datasize).to_bytes(4,'little')                                    # (4byte) Data size in bytes
     return o
 
+wav_header = genHeader(RATE, BITS_PER_SAMPLE, CHANNELS)
+stream = audio1.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True,input_device_index=2, frames_per_buffer=CHUNK)
 
 @app.route('/')
 def index():

@@ -207,8 +207,6 @@ def sound():
     try:
         while True:
             data = wav_header+stream.read(CHUNK, exception_on_overflow = False)
-            # yield (b'--frame\r\n'
-            #     b'Content-Type: audio/x-wav\r\n\r\n' + data + b'\r\n')
             yield (data)
     except Exception as e:
         logging.warning(e)

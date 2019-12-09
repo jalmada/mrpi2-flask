@@ -206,14 +206,15 @@ def gen():
 def sound():
     try:
         while True:
-            data = wav_header+stream.read(CHUNK, exception_on_overflow = False)
+            #data = wav_header+stream.read(CHUNK, exception_on_overflow = False)
+            data = stream.read(CHUNK, exception_on_overflow = False)
             yield (data)
     except Exception as e:
         logging.warning(e)
 
 @app.route('/audio')
 def audio():   
-    return Response(stream_with_context(sound()),  mimetype='audio/x-wav')
+    return Response(stream_with_context(sound()))
 
 
 

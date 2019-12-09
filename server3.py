@@ -42,8 +42,7 @@ FORMAT = pyaudio.paInt32
 CHANNELS = 1
 RATE = 44100
 CHUNK = 4096
-RECORD_SECONDS = 5
-BITS_PER_SAMPLE = 16
+BITS_PER_SAMPLE = 32
 
 def genHeader(sampleRate, bitsPerSample, channels):
     datasize = 2000*10**6

@@ -38,7 +38,7 @@ currentLedDim = 0
 currentLedGain = 0
 audio1 = pyaudio.PyAudio()
 
-FORMAT = pyaudio.paInt32
+FORMAT = pyaudio.paFloat32
 CHANNELS = 1
 RATE = 44100
 CHUNK = 4096

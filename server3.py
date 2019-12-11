@@ -208,7 +208,6 @@ def sound():
         yield(wav_header)
         while True:
             data = stream.read(CHUNK, exception_on_overflow = False)
-            #data = stream.read(CHUNK, exception_on_overflow = False)
             yield (data)
     except Exception as e:
         logging.warning(e)
@@ -216,9 +215,6 @@ def sound():
 @app.route('/audio')
 def audio():   
     return Response(stream_with_context(sound()))
-
-
-
 
 if (__name__ == '__main__'):
     app.run(host='0.0.0.0', port=80,  threaded=True)

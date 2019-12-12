@@ -197,18 +197,12 @@ def takePicture():
 def sendStream():
     return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame') 
 
-currentServoX = 0
-currentServoY = 0
-
 @app.route('/move',  methods=['POST'])
 def moveServo():
     data = request.get_json()
     print(data)
-    xInc = int(data["x"]) if data["x"] else 0
-    yInc = int(data["y"]) if data["y"] else 0
-
-    currentServoX = currentServoX + xInc
-    currentServoY = currentServoY + yInc
+    currentServoX = int(data["x"]) if data["x"] else 0
+    currentServoY = int(data["y"]) if data["y"] else 0
 
     currentServoX = 0 if currentServoX < 0 else currentServoX
     currentServoX = 180 if currentServoX > 180 else currentServoX

@@ -41,6 +41,7 @@ brightPi = BrightPi()
 brightPi.reset()
 camera = picamera.PiCamera()
 camera.vflip = True
+camera.hflip = True
 output = StreamingOutput()
 camera.start_recording(output, format='mjpeg')
 currentLedDim = 0

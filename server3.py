@@ -228,15 +228,15 @@ def SetAngle(angle, angle2):
     duty = angle/18 + 2.5
     duty2 = angle2/18 + 2.5
 
-	p.ChangeDutyCycle(duty)
-	p2.ChangeDutyCycle(duty2)
-	sleep(1)
-	p.ChangeDutyCycle(0)
-	p2.ChangeDutyCycle(0)
+    p.ChangeDutyCycle(duty)
+    p2.ChangeDutyCycle(duty2)
+    sleep(1)
+    p.ChangeDutyCycle(0)
+    p2.ChangeDutyCycle(0)
 
     p.stop()
-	p2.stop()
-	GPIO.cleanup()
+    p2.stop()
+    GPIO.cleanup()
 
 def gen():
     try:

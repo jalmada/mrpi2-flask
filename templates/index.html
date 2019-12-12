@@ -16,6 +16,15 @@
       <button onclick="setDim('up')">Dim Up</button>
       <input type="text" id="dim" value= "0" />
       <button onclick="setDim('down')">Dim Down</button>
+      <button onclick="moveX(0)">X:0</button>
+      <button onclick="moveX(45)">X:45</button>
+      <button onclick="moveX(135)">X:135</button>
+      <button onclick="moveX(180)">X:180</button>
+
+      <button onclick="moveY(0)">Y:0</button>
+      <button onclick="moveY(37)">Y:37</button>
+      <button onclick="moveY(112)">Y:112</button>
+      <button onclick="moveY(150)">Y:150</button>
 
       <audio controls>
           <source src="audio" type="audio/x-wav;codec=pcm">
@@ -90,6 +99,32 @@
             axios.post('/gain', {direction: direction, gain: gain})
               .then(function (response) {
                 document.getElementById("gain").value = response.data.currentGain;
+                console.log(response);
+              })
+            .catch(function (error) {
+              console.log(error);
+            });
+          }
+
+          var currentX = 0;
+          var currentY = 0;
+
+          function moveX(x){
+            //alert( document.getElementById("gain").value);
+            currentX = x;
+            axios.post('/move', {x: x, y: currentY})
+              .then(function (response) {
+                console.log(response);
+              })
+            .catch(function (error) {
+              console.log(error);
+            });
+          }
+          function moveY(y){
+            //alert( document.getElementById("gain").value);
+            currentY = y;
+            axios.post('/move', {x: currentX, y: y})
+              .then(function (response) {
                 console.log(response);
               })
             .catch(function (error) {

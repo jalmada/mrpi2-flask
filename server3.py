@@ -231,10 +231,6 @@ def SetAngle(angle, angle2):
     p.ChangeDutyCycle(0)
     p2.ChangeDutyCycle(0)
 
-    p.stop()
-    p2.stop()
-    GPIO.cleanup()
-
 def gen():
     try:
         while True:
@@ -260,7 +256,11 @@ def audio():
     return Response(stream_with_context(sound()))
 
 if (__name__ == '__main__'):
-    app.run(host='0.0.0.0', port=3000,  threaded=True)
-
+    try:
+        app.run(host='0.0.0.0', port=3000,  threaded=True)
+    except Exception as e:
+        p.stop()
+        p2.stop()
+        GPIO.cleanup()
 
 

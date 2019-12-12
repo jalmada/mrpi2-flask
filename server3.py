@@ -40,6 +40,7 @@ app = Flask(__name__)
 brightPi = BrightPi()
 brightPi.reset()
 camera = picamera.PiCamera()
+camera.vflip = True
 output = StreamingOutput()
 camera.start_recording(output, format='mjpeg')
 currentLedDim = 0
@@ -203,7 +204,6 @@ def sendStream():
 @app.route('/move',  methods=['POST'])
 def moveServo():
     data = request.get_json()
-    print(data)
     currentServoX = int(data["x"]) if data["x"] else 0
     currentServoY = int(data["y"]) if data["y"] else 0
 

@@ -217,13 +217,16 @@ def moveServo():
     currentServoY = 150 if currentServoY > 150 else currentServoY
 
     SetAngle(currentServoX, currentServoY)
+    resp = jsonify(success=True)
+    resp.status_code = 200
+    return resp
 
 def SetAngle(angle, angle2):
     p.start(0)
     p2.start(0)
 
-	duty = angle/18 + 2.5
-	duty2 = angle2/18 + 2.5
+    duty = angle/18 + 2.5
+    duty2 = angle2/18 + 2.5
 
 	p.ChangeDutyCycle(duty)
 	p2.ChangeDutyCycle(duty2)

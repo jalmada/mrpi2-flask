@@ -203,7 +203,7 @@ currentServoY = 0
 @app.route('/move',  methods=['POST'])
 def moveServo():
     data = request.get_json()
-
+    print(data)
     xInc = int(data["x"]) if data["x"] else 0
     yInc = int(data["y"]) if data["y"] else 0
 

@@ -7,6 +7,11 @@ import logging
 from threading import Condition
 from datetime import datetime
 import pyaudio
+import RPi.GPIO as GPIO
+
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(7, GPIO.OUT)
+GPIO.setup(12, GPIO.OUT)
 
 class StreamingOutput(object):
     def __init__(self):
@@ -191,6 +196,44 @@ def takePicture():
 @app.route('/stream.mjpg')
 def sendStream():
     return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame') 
+
+currentServoX = 0
+currentServoY = 0
+
+@app.route('/move',  methods=['POST'])
+def moveServo():
+    data = request.get_json()
+
+    xInc = int(data["x"]) if data["x"] else 0
+    yInc = int(data["y"]) if data["y"] else 0
+
+    currentServoX = currentServoX + xInc
+    currentServoY = currentServoY + yInc
+
+    currentServoX = 0 if currentServoX < 0 else currentServoX
+    currentServoX = 180 if currentServoX > 180 else currentServoX
+
+    currentServoY = 0 if currentServoY < 0 else currentServoY
+    currentServoY = 150 if currentServoY > 150 else currentServoY
+
+    SetAngle(currentServoX, currentServoY)
+
+def SetAngle(angle, angle2):
+    p.start(0)
+    p2.start(0)
+
+	duty = angle/18 + 2.5
+	duty2 = angle2/18 + 2.5
+
+	p.ChangeDutyCycle(duty)
+	p2.ChangeDutyCycle(duty2)
+	sleep(1)
+	p.ChangeDutyCycle(0)
+	p2.ChangeDutyCycle(0)
+
+    p.stop()
+	p2.stop()
+	GPIO.cleanup()
 
 def gen():
     try:

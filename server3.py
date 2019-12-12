@@ -13,6 +13,9 @@ GPIO.setmode(GPIO.BOARD)
 GPIO.setup(7, GPIO.OUT)
 GPIO.setup(12, GPIO.OUT)
 
+p = GPIO.PWM(7, 50)
+p2 = GPIO.PWM(12, 43)
+
 class StreamingOutput(object):
     def __init__(self):
         self.frame = None

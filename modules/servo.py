@@ -20,8 +20,8 @@ class Servo:
         self.xP.start(0)
         self.yP.start(0)
 
-        dutyX = GetDuty(angleX)
-        dutyY = GetDuty(angleY)
+        dutyX = self.GetDuty(angleX)
+        dutyY = self.GetDuty(angleY)
 
         self.xP.ChangeDutyCycle(dutyX)
         self.yP.ChangeDutyCycle(dutyY)

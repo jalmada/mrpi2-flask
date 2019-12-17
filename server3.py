@@ -7,7 +7,7 @@ import logging
 from threading import Condition
 from datetime import datetime
 import pyaudio
-import RPI.GPIO as GPIO
+import RPi.GPIO as GPIO
 from modules.servo import Servo
 
 GPIO.setmode(GPIO.BOARD)

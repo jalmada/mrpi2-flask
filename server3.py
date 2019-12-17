@@ -7,14 +7,17 @@ import logging
 from threading import Condition
 from datetime import datetime
 import pyaudio
-import RPi.GPIO as GPIO
+import RPI.GPIO as GPIO
+from modules.servo import Servo
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(7, GPIO.OUT)
 GPIO.setup(12, GPIO.OUT)
 
-p = GPIO.PWM(7, 50)
-p2 = GPIO.PWM(12, 43)
+# p = GPIO.PWM(7, 50)
+# p2 = GPIO.PWM(12, 43)
+
+servo = Servo(7, 12)
 
 class StreamingOutput(object):
     def __init__(self):
@@ -208,29 +211,31 @@ def moveServo():
     currentServoX = int(data["x"]) if data["x"] else 0
     currentServoY = int(data["y"]) if data["y"] else 0
 
-    currentServoX = 0 if currentServoX < 0 else currentServoX
-    currentServoX = 180 if currentServoX > 180 else currentServoX
+    servo.Move(currentServoX, currentServoY)
 
-    currentServoY = 0 if currentServoY < 0 else currentServoY
-    currentServoY = 150 if currentServoY > 150 else currentServoY
+    # currentServoX = 0 if currentServoX < 0 else currentServoX
+    # currentServoX = 180 if currentServoX > 180 else currentServoX
 
-    SetAngle(currentServoX, currentServoY)
+    # currentServoY = 0 if currentServoY < 0 else currentServoY
+    # currentServoY = 150 if currentServoY > 150 else currentServoY
+
+    # SetAngle(currentServoX, currentServoY)
     resp = jsonify(success=True)
     resp.status_code = 200
     return resp
 
-def SetAngle(angle, angle2):
-    p.start(0)
-    p2.start(0)
+# def SetAngle(angle, angle2):
+#     p.start(0)
+#     p2.start(0)
 
-    duty = angle/18 + 2.5
-    duty2 = angle2/18 + 2.5
+#     duty = angle/18 + 2.5
+#     duty2 = angle2/18 + 2.5
 
-    p.ChangeDutyCycle(duty)
-    p2.ChangeDutyCycle(duty2)
-    sleep(1)
-    p.ChangeDutyCycle(0)
-    p2.ChangeDutyCycle(0)
+#     p.ChangeDutyCycle(duty)
+#     p2.ChangeDutyCycle(duty2)
+#     sleep(1)
+#     p.ChangeDutyCycle(0)
+#     p2.ChangeDutyCycle(0)
 
 def gen():
     try:
@@ -260,8 +265,9 @@ if (__name__ == '__main__'):
     try:
         app.run(host='0.0.0.0', port=3000,  threaded=True)
     except Exception as e:
-        p.stop()
-        p2.stop()
+        # p.stop()
+        # p2.stop()
+        servo.Stop()
         GPIO.cleanup()
 
 

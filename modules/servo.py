@@ -20,17 +20,17 @@ class Servo:
         self.xP.start(0)
         self.yP.start(0)
 
-        duty = GetDuty(angleX)
-        duty2 = GetDuty(angleY)
+        dutyX = GetDuty(angleX)
+        dutyY = GetDuty(angleY)
 
-        self.xP.ChangeDutyCycle(duty)
-        self.yP.ChangeDutyCycle(duty2)
+        self.xP.ChangeDutyCycle(dutyX)
+        self.yP.ChangeDutyCycle(dutyY)
         sleep(1)
         self.xP.ChangeDutyCycle(0)
         self.yP.ChangeDutyCycle(0)
     
     def Move(self, x, y):
-        x, y = ResolvePosition(x, y)
+        x, y = self.ResolvePosition(x, y)
         SetAngle(x, y)
         currentX = x
         currentY = y

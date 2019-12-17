@@ -11,7 +11,7 @@ class Servo:
 
     def __init__(self, xPin, yPin):
         self.xPin = xPin
-        self.yPin - yPin
+        self.yPin = yPin
 
         self.xP = GPIO.PWM(xPin, 50)
         self.yP = GPIO.PWM(yPin, 43)    

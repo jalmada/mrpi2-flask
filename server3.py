@@ -1,10 +1,10 @@
 from flask import Flask, jsonify, render_template, Response, request, stream_with_context
 from brightpilib import *
-# import picamera
+import picamera
 from time import sleep
-#import io
+import io
 import logging
-#from threading import Condition
+from threading import Condition
 from datetime import datetime
 import pyaudio
 import RPi.GPIO as GPIO
@@ -17,26 +17,26 @@ GPIO.setup(7, GPIO.OUT)
 GPIO.setup(12, GPIO.OUT)
 
 servo = Servo(7, 12)
-streamingCamera = StreamingCamera(True)
-streamingCamera.Flip(True, True)
+# streamingCamera = StreamingCamera(True)
+# streamingCamera.Flip(True, True)
 
 
-# class StreamingOutput(object):
-#     def __init__(self):
-#         self.frame = None
-#         self.buffer = io.BytesIO()
-#         self.condition = Condition()
+class StreamingOutput(object):
+    def __init__(self):
+        self.frame = None
+        self.buffer = io.BytesIO()
+        self.condition = Condition()
 
-#     def write(self, buf):
-#         if buf.startswith(b'\xff\xd8'):
-#             # New frame, copy the existing buffer's content and notify all
-#             # clients it's available
-#             self.buffer.truncate()
-#             with self.condition:
-#                 self.frame = self.buffer.getvalue()
-#                 self.condition.notify_all()
-#             self.buffer.seek(0)
-#         return self.buffer.write(buf)
+    def write(self, buf):
+        if buf.startswith(b'\xff\xd8'):
+            # New frame, copy the existing buffer's content and notify all
+            # clients it's available
+            self.buffer.truncate()
+            with self.condition:
+                self.frame = self.buffer.getvalue()
+                self.condition.notify_all()
+            self.buffer.seek(0)
+        return self.buffer.write(buf)
 
 LED_WHITE_DIM = (2,4,5,7)
 LED_IR_DIM = (1,3,6,8)
@@ -44,11 +44,11 @@ LED_IR_DIM = (1,3,6,8)
 app = Flask(__name__)
 brightPi = BrightPi()
 brightPi.reset()
-# camera = picamera.PiCamera()
-# camera.vflip = True
-# camera.hflip = True
-#output = StreamingOutput()
-#camera.start_recording(output, format='mjpeg')
+camera = picamera.PiCamera()
+camera.vflip = True
+camera.hflip = True
+output = StreamingOutput()
+camera.start_recording(output, format='mjpeg')
 currentLedDim = 0
 currentLedGain = 0
 audio1 = pyaudio.PyAudio()
@@ -198,8 +198,8 @@ def dim():
 def takePicture():
     today = datetime.now()	
     fileName = today.strftime("%Y-%m-%d-%H_%M_%S")
-    #camera.capture(f'./captures/{fileName}.jpg')
-    streamingCamera.TakePicture(fileName)
+    camera.capture(f'./captures/{fileName}.jpg')
+    # streamingCamera.TakePicture(fileName)
     resp = jsonify(success=True)
     resp.status_code = 200
     return resp
@@ -223,9 +223,9 @@ def moveServo():
 def gen():
     try:
         while True:
-            with streamingCamera.output.condition:
-                streamingCamera.output.condition.wait()
-                frame = streamingCamera.output.frame
+            with output.condition:
+                output.condition.wait()
+                frame = output.frame
                 yield (b'--frame\r\n'
                         b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
     except Exception as e:

@@ -206,7 +206,7 @@ def takePicture():
 
 @app.route('/stream.mjpg')
 def sendStream():
-    return Response(streamingCamera.Stream(), mimetype='multipart/x-mixed-replace; boundary=frame') 
+    return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame') 
 
 @app.route('/move',  methods=['POST'])
 def moveServo():
@@ -220,16 +220,16 @@ def moveServo():
     resp.status_code = 200
     return resp
 
-# def gen():
-#     try:
-#         while True:
-#             with output.condition:
-#                 output.condition.wait()
-#                 frame = output.frame
-#                 yield (b'--frame\r\n'
-#                         b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-#     except Exception as e:
-#         logging.warning(e)
+def gen():
+    try:
+        while True:
+            with streamingCamera.output.condition:
+                streamingCamera.output.condition.wait()
+                frame = streamingCamera.output.frame
+                yield (b'--frame\r\n'
+                        b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+    except Exception as e:
+        logging.warning(e)
                 
 def sound():
     try:

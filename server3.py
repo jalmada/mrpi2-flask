@@ -199,14 +199,14 @@ def takePicture():
     today = datetime.now()	
     fileName = today.strftime("%Y-%m-%d-%H_%M_%S")
     #camera.capture(f'./captures/{fileName}.jpg')
-    StreamingCamera.TakePicture(fileName)
+    streamingCamera.TakePicture(fileName)
     resp = jsonify(success=True)
     resp.status_code = 200
     return resp
 
 @app.route('/stream.mjpg')
 def sendStream():
-    return Response(StreamingCamera.Stream(), mimetype='multipart/x-mixed-replace; boundary=frame') 
+    return Response(streamingCamera.Stream(), mimetype='multipart/x-mixed-replace; boundary=frame') 
 
 @app.route('/move',  methods=['POST'])
 def moveServo():

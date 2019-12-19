@@ -1,19 +1,19 @@
 from flask import Flask, jsonify, render_template, Response, request, stream_with_context
 from brightpilib import *
-from time import sleep
 import logging
 from datetime import datetime
-#import pyaudio
 import RPi.GPIO as GPIO
 
 from modules.servo import Servo
 from modules.streamingCamera import StreamingCamera
 from modules.audio import Audio
 
+#Servo Pins
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(7, GPIO.OUT)
 GPIO.setup(12, GPIO.OUT)
 
+#Initialize Modules
 servo = Servo(7, 12)
 streamingCamera = StreamingCamera(True)
 streamingCamera.Flip(True, True)
@@ -27,34 +27,6 @@ brightPi = BrightPi()
 brightPi.reset()
 currentLedDim = 0
 currentLedGain = 0
-#audio1 = pyaudio.PyAudio()
-
-# FORMAT = pyaudio.paInt32
-# CHANNELS = 1
-# RATE = 44100
-# CHUNK = 4096
-# BITS_PER_SAMPLE = 32
-
-# def genHeader(sampleRate, bitsPerSample, channels):
-#     datasize = 2000*10**6
-#     o = bytes("RIFF",'ascii')                                               # (4byte) Marks file as RIFF
-#     o += (datasize + 36).to_bytes(4,'little')                               # (4byte) File size in bytes excluding this and RIFF marker
-#     o += bytes("WAVE",'ascii')                                              # (4byte) File type
-#     o += bytes("fmt ",'ascii')                                              # (4byte) Format Chunk Marker
-#     o += (16).to_bytes(4,'little')                                          # (4byte) Length of above format data
-#     o += (1).to_bytes(2,'little')                                           # (2byte) Format type (1 - PCM)
-#     o += (channels).to_bytes(2,'little')                                    # (2byte)
-#     o += (sampleRate).to_bytes(4,'little')                                  # (4byte)
-#     o += (sampleRate * channels * bitsPerSample // 8).to_bytes(4,'little')  # (4byte)
-#     o += (channels * bitsPerSample // 8).to_bytes(2,'little')               # (2byte)
-#     o += (bitsPerSample).to_bytes(2,'little')                               # (2byte)
-#     o += bytes("data",'ascii')                                              # (4byte) Data Chunk Marker
-#     o += (datasize).to_bytes(4,'little')                                    # (4byte) Data size in bytes
-#     return o
-
-
-# wav_header = genHeader(RATE, BITS_PER_SAMPLE, CHANNELS)
-# stream = audio1.open(format=FORMAT, channels=CHANNELS, rate=RATE, input=True,input_device_index=2, frames_per_buffer=CHUNK)
 
 @app.route('/')
 def index():
@@ -170,19 +142,6 @@ def dim():
     resp.status_code = 200
     return resp
 
-@app.route('/photo')
-def takePicture():
-    today = datetime.now()	
-    fileName = today.strftime("%Y-%m-%d-%H_%M_%S")
-    streamingCamera.TakePicture(fileName)
-    resp = jsonify(success=True)
-    resp.status_code = 200
-    return resp
-
-@app.route('/stream.mjpg')
-def sendStream():
-    return Response(streamingCamera.Stream(), mimetype='multipart/x-mixed-replace; boundary=frame') 
-
 @app.route('/move',  methods=['POST'])
 def moveServo():
     data = request.get_json()
@@ -194,15 +153,21 @@ def moveServo():
     resp = jsonify(success=True)
     resp.status_code = 200
     return resp
-                
-# def sound():
-#     try:
-#         yield(wav_header)
-#         while True:
-#             data = stream.read(CHUNK, exception_on_overflow = False)
-#             yield (data)
-#     except Exception as e:
-#         logging.warning(e)
+
+@app.route('/photo')
+def takePicture():
+    today = datetime.now()	
+    fileName = today.strftime("%Y-%m-%d-%H_%M_%S")
+
+    streamingCamera.TakePicture(fileName)
+
+    resp = jsonify(success=True)
+    resp.status_code = 200
+    return resp
+
+@app.route('/stream.mjpg')
+def sendStream():
+    return Response(streamingCamera.Stream(), mimetype='multipart/x-mixed-replace; boundary=frame') 
 
 @app.route('/audio')
 def audio():   

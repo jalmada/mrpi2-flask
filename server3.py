@@ -17,7 +17,7 @@ GPIO.setup(12, GPIO.OUT)
 servo = Servo(7, 12)
 streamingCamera = StreamingCamera(True)
 streamingCamera.Flip(True, True)
-audio = Audio()
+streamingAudio = Audio()
 
 LED_WHITE_DIM = (2,4,5,7)
 LED_IR_DIM = (1,3,6,8)
@@ -206,7 +206,7 @@ def moveServo():
 
 @app.route('/audio')
 def audio():   
-    return Response(stream_with_context(audio.sound()))
+    return Response(stream_with_context(streamingAudio.sound()))
 
 if (__name__ == '__main__'):
     try:

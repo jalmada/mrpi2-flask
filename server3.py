@@ -1,12 +1,13 @@
 from flask import Flask, jsonify, render_template, Response, request, stream_with_context
 from brightpilib import *
 import logging
-from datetime import datetime
+# from datetime import datetime
 import RPi.GPIO as GPIO
 
 from modules.servo import Servo
 from modules.streamingCamera import StreamingCamera
 from modules.audio import Audio
+from modules.lights import Lights
 
 #Servo Pins
 GPIO.setmode(GPIO.BOARD)
@@ -15,18 +16,19 @@ GPIO.setup(12, GPIO.OUT)
 
 #Initialize Modules
 servo = Servo(7, 12)
+lights = Lights()
 streamingCamera = StreamingCamera(True)
 streamingCamera.Flip(True, True)
 streamingAudio = Audio()
 
-LED_WHITE_DIM = (2,4,5,7)
-LED_IR_DIM = (1,3,6,8)
+# LED_WHITE_DIM = (2,4,5,7)
+# LED_IR_DIM = (1,3,6,8)
 
 app = Flask(__name__)
-brightPi = BrightPi()
-brightPi.reset()
-currentLedDim = 0
-currentLedGain = 0
+# brightPi = BrightPi()
+# brightPi.reset()
+# currentLedDim = 0
+# currentLedGain = 0
 
 @app.route('/')
 def index():
@@ -35,12 +37,15 @@ def index():
 @app.route('/dark', methods=['POST'])
 def dark():
     try:
-        ledsStaus = brightPi.get_led_on_off(LED_IR)
-        isON = any(led != 0 for led in ledsStaus)
-        if(isON):
-            brightPi.set_led_on_off(LED_IR, OFF)
-        else:
-            brightPi.set_led_on_off(LED_IR, ON)
+        # ledsStaus = brightPi.get_led_on_off(LED_IR)
+        # isON = any(led != 0 for led in ledsStaus)
+        # if(isON):
+        #     brightPi.set_led_on_off(LED_IR, OFF)
+        # else:
+        #     brightPi.set_led_on_off(LED_IR, ON)
+
+        
+        isOn = lights.ToggleDarkMode()
 
         resp = jsonify(isON=(not isON), success=True)
         resp.status_code = 200
@@ -51,12 +56,14 @@ def dark():
 @app.route('/light', methods=['POST'])
 def light():
     try:
-        ledsStaus = brightPi.get_led_on_off(LED_WHITE)
-        isON = any(led != 0 for led in ledsStaus)
-        if(isON):
-            brightPi.set_led_on_off(LED_WHITE, OFF)
-        else:
-            brightPi.set_led_on_off(LED_WHITE, ON)
+        # ledsStaus = brightPi.get_led_on_off(LED_WHITE)
+        # isON = any(led != 0 for led in ledsStaus)
+        # if(isON):
+        #     brightPi.set_led_on_off(LED_WHITE, OFF)
+        # else:
+        #     brightPi.set_led_on_off(LED_WHITE, ON)
+
+        isOn = lights.ToggleLights()
 
         resp = jsonify(isON=(not isON), success=True)
         resp.status_code = 200

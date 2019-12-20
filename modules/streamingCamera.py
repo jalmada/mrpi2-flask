@@ -35,6 +35,7 @@ class StreamingCamera:
     
     def Stop(self):
         self.camera.stop_recording()
+        self.camera.close()
 
     def SetEffects(self, uv):
         self.camera.color_effects = uv

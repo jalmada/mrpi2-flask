@@ -5,7 +5,7 @@ import RPi.GPIO as GPIO
 
 from modules.servo import Servo
 #from modules.streamingCamera import StreamingCamera
-from controllers.camera import CameraController
+from controllers.camera import *
 from modules.audio import Audio
 from modules.lights import Lights
 

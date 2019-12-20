@@ -27,6 +27,8 @@ class Lights:
 
         currentGain = newGain if newGain >= 0 else 0
         currentGain = newGain if newGain <= BrightPi._max_gain else BrightPi._max_gain
+        currentGain = currentGain if currentGain >= 0 else 0
+
 
         self.brightPi.set_gain(currentGain)
         return currentGain
@@ -48,11 +50,11 @@ class Lights:
 
     def StepDim(self, step):
         currentDim = self.brightPi.get_led_dim()[0]
-
         newDim = currentDim + step
 
         currentDim = newDim if newDim >= 0 else 0
         currentDim = newDim if newDim <= BrightPi._max_dim else BrightPi._max_dim
+        currentDim = currentDim if currentDim >= 0 else 0
 
         self.brightPi.set_led_dim(self.LED_WHITE_DIM, currentDim)
         self.brightPi.set_led_dim(self.LED_IR_DIM, currentDim)

@@ -4,7 +4,7 @@ from datetime import datetime
 import RPi.GPIO as GPIO
 
 from modules.servo import Servo
-from modules.streamingCamera import StreamingCamera
+from modules.streamingCamera import *
 from modules.audio import Audio
 from modules.lights import Lights
 
@@ -30,7 +30,8 @@ def index():
 def dark():
     try:
         isON = lights.ToggleDarkMode()
-
+        streamingCamera.SetEffects(BLACK_AND_WHITE if isON else None)
+        
         resp = jsonify(isON=(not isON), success=True)
         resp.status_code = 200
         return resp

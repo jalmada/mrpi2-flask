@@ -2,10 +2,12 @@ import picamera
 from .streamingOutput import StreamingOutput
 import logging
 
+BLACK_AND_WHITE = (128, 128)
+
 class StreamingCamera:
 
     def __init__(self, startRecording):
-        self.camera = picamera.PiCamera(resolution='640x480', framerate=12)
+        self.camera = picamera.PiCamera(resolution='640x480', framerate=24)
         self.output = StreamingOutput()
         if(startRecording):
             self.StartRecording()
@@ -33,4 +35,7 @@ class StreamingCamera:
     
     def Stop(self):
         self.camera.stop_recording()
+
+    def SetEffects(self, uv):
+        self.camera.color_effects = uv
 

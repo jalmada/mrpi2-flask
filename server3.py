@@ -45,7 +45,7 @@ def dark():
         #     brightPi.set_led_on_off(LED_IR, ON)
 
         
-        isOn = lights.ToggleDarkMode()
+        isON = lights.ToggleDarkMode()
 
         resp = jsonify(isON=(not isON), success=True)
         resp.status_code = 200
@@ -63,7 +63,7 @@ def light():
         # else:
         #     brightPi.set_led_on_off(LED_WHITE, ON)
 
-        isOn = lights.ToggleLights()
+        isON = lights.ToggleLights()
 
         resp = jsonify(isON=(not isON), success=True)
         resp.status_code = 200

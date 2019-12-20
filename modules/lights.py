@@ -12,7 +12,7 @@ class Lights:
     def Toggle(self, LEDS):
         ledsStatus = self.brightPi.get_led_on_off(LEDS)
         isON = any(led != 0 for led in ledsStatus)
-        self.brightPi.set_led_on_off(LEDS, (ON if isON else OFF))
+        self.brightPi.set_led_on_off(LEDS, (ON if not isON else OFF))
         return isON
 
     def ToggleDarkMode(self):

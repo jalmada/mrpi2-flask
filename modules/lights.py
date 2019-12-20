@@ -35,7 +35,7 @@ class Lights:
         currentGain = self.brightPi.get_gain()
         if(gain < 0):
             currentGain = 0
-        elsif (gain > BrightPi._max_gain):
+        elif (gain > BrightPi._max_gain):
             currentGain = BrightPi._max_gain
         else:
             currentGain = gain
@@ -63,7 +63,7 @@ class Lights:
 
         if(dim < 0):
             currentDim = 0
-        elsif (dim > BrightPi._max_dim):
+        elif (dim > BrightPi._max_dim):
             currentDim = BrightPi._max_dim
         else:
             currentDim = dim

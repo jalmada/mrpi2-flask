@@ -82,8 +82,8 @@ def gain():
 
     if (request.method == 'POST'):
 
-        direction = data["direction"]
-        gain = data["gain"]
+        direction = data["direction"] if data["direction"] else False
+        gain = data["gain"] if data["gain"] else False
 
         if(gain):
             currentGain = lights.SetGain(int(gain))
@@ -137,8 +137,8 @@ def dim():
 
     if (request.method == 'POST'):
 
-        direction = data["direction"]
-        dim = data["dim"]
+        direction = data["direction"] if data["direction"] else False
+        dim = data["dim"] if data["dim"] else False
 
         if(dim):
             currentDim = lights.SetDim(int(dim))

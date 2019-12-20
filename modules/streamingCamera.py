@@ -5,7 +5,7 @@ import logging
 class StreamingCamera:
 
     def __init__(self, startRecording):
-        self.camera = picamera.PiCamera()
+        self.camera = picamera.PiCamera(resolution='640x480', framerate=24)
         self.output = StreamingOutput()
         if(startRecording):
             self.StartRecording()
@@ -30,4 +30,7 @@ class StreamingCamera:
                             b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
         except Exception as e:
             logging.warning(e)
+    
+    def Stop(self):
+        self.camera.stop_recording()
 

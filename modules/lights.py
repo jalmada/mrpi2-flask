@@ -1,4 +1,4 @@
-from brightpilib import *
+from .brightpilib import *
 
 class Lights:
 

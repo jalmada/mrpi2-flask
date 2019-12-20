@@ -5,7 +5,7 @@ import logging
 class StreamingCamera:
 
     def __init__(self, startRecording):
-        self.camera = picamera.PiCamera(resolution='640x480', framerate=24)
+        self.camera = picamera.PiCamera(resolution='640x480', framerate=12)
         self.output = StreamingOutput()
         if(startRecording):
             self.StartRecording()

@@ -50,7 +50,6 @@ def light():
 
 @app.route('/gain', methods=['POST','GET'])
 def gain():
-
     step = 5
     data = request.get_json()
     currentGain = lights.GetGain()
@@ -73,7 +72,6 @@ def gain():
 
 @app.route('/dim', methods=['POST','GET'])
 def dim():
-
     step = 5
     data = request.get_json()
     currentDim = lights.GetDim()

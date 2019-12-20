@@ -73,81 +73,123 @@ def light():
 
 @app.route('/gain', methods=['POST','GET'])
 def gain():
+
+    step = 5
     data = request.get_json()
-    currentGain = brightPi.get_gain()
+    currentGain = lights.GetGain()
+
+    # currentGain = brightPi.get_gain()
 
     if (request.method == 'POST'):
+
         direction = data["direction"]
+        gain = data["gain"]
 
-        if(not direction ):
-            gain = data["gain"]
-
-            if(not gain):
-                resp = jsonify(success=False)
-                resp.status_code = 400
-                return resp
-
-            gainNum = int(gain)
-            if(gainNum < 0 or gainNum >  BrightPi._max_gain):
-                gain = currentGain
-
-            currentGain = gainNum
+        if(gain):
+            currentGain = lights.SetGain(int(gain))
+        elif (direction):
+            multi = -1 if direction == 'down' else 1
+            currentGain = lights.SetGain(step * multi)
         else:
-            if((currentGain == 0 and direction == 'down') or (currentGain == BrightPi._max_gain and direction == 'up')):
-                resp = jsonify(currentGain=currentGain, success=True)
-                resp.status_code = 200
-                return resp
-
-            if(direction == "up"):
-                currentGain = currentGain + 1
-            else:
-                currentGain = currentGain - 1
-
-        brightPi.set_gain(currentGain)
+            resp = jsonify(success=False)
+            resp.status_code = 400
+            return resp
 
     resp = jsonify(currentGain=currentGain, success=True)
     resp.status_code = 200
     return resp
 
+
+        # if(not direction ):
+        #     gain = data["gain"]
+
+        #     if(not gain):
+        #         resp = jsonify(success=False)
+        #         resp.status_code = 400
+        #         return resp
+
+            # gainNum = int(gain)
+            # if(gainNum < 0 or gainNum >  BrightPi._max_gain):
+            #     gain = currentGain
+
+            #currentGain = gainNum
+    #     else:
+    #         if((currentGain == 0 and direction == 'down') or (currentGain == BrightPi._max_gain and direction == 'up')):
+    #             resp = jsonify(currentGain=currentGain, success=True)
+    #             resp.status_code = 200
+    #             return resp
+
+    #         if(direction == "up"):
+    #             currentGain = currentGain + 1
+    #         else:
+    #             currentGain = currentGain - 1
+
+    #     brightPi.set_gain(currentGain)
+
+    # resp = jsonify(currentGain=currentGain, success=True)
+    # resp.status_code = 200
+    # return resp
+
 @app.route('/dim', methods=['POST','GET'])
 def dim():
     data = request.get_json()
-    currentDim = brightPi.get_led_dim()[0]
+    currentDim = lights.GetDim()
 
     if (request.method == 'POST'):
+
         direction = data["direction"]
+        dim = data["dim"]
 
-        if(not direction ):
-            dim = data["dim"]
-
-            if(not dim):
-                resp = jsonify(success=False)
-                resp.status_code = 400
-                return resp
-
-            dimNum = int(dim)
-            if(dimNum < 0 or dimNum > BrightPi._max_dim):
-                dim = currentDim
-
-            currentDim = dimNum
+        if(dim):
+            currentDim = lights.SetDim(int(dim))
+        elif (direction):
+            multi = -1 if direction == 'down' else 1
+            currentDim = lights.SetDim(step * multi)
         else:
-
-            if((currentDim == 0 and direction == 'down') or (currentDim == BrightPi._max_dim and direction == 'up')):
-                resp = jsonify(currentDim=currentDim, success=True)
-                resp.status_code = 200
-                return resp
-
-            if(direction == "up"):
-                currentDim = currentDim + 1
-            else:
-                currentDim = currentDim - 1
-     
-        brightPi.set_led_dim(LED_WHITE_DIM, currentDim)
-        brightPi.set_led_dim(LED_IR_DIM, currentDim)
+            resp = jsonify(success=False)
+            resp.status_code = 400
+            return resp
 
     resp = jsonify(currentDim=currentDim, success=True)
     resp.status_code = 200
     return resp
+    # data = request.get_json()
+    # currentDim = brightPi.get_led_dim()[0]
+
+    # if (request.method == 'POST'):
+    #     direction = data["direction"]
+
+    #     if(not direction ):
+    #         dim = data["dim"]
+
+    #         if(not dim):
+    #             resp = jsonify(success=False)
+    #             resp.status_code = 400
+    #             return resp
+
+    #         dimNum = int(dim)
+    #         if(dimNum < 0 or dimNum > BrightPi._max_dim):
+    #             dim = currentDim
+
+    #         currentDim = dimNum
+    #     else:
+
+    #         if((currentDim == 0 and direction == 'down') or (currentDim == BrightPi._max_dim and direction == 'up')):
+    #             resp = jsonify(currentDim=currentDim, success=True)
+    #             resp.status_code = 200
+    #             return resp
+
+    #         if(direction == "up"):
+    #             currentDim = currentDim + 1
+    #         else:
+    #             currentDim = currentDim - 1
+     
+    #     brightPi.set_led_dim(LED_WHITE_DIM, currentDim)
+    #     brightPi.set_led_dim(LED_IR_DIM, currentDim)
+
+    # resp = jsonify(currentDim=currentDim, success=True)
+    # resp.status_code = 200
+    # return resp
 
 @app.route('/move',  methods=['POST'])
 def moveServo():

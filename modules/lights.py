@@ -5,9 +5,6 @@ class Lights:
     LED_WHITE_DIM = (2,4,5,7)
     LED_IR_DIM = (1,3,6,8)
 
-    currentLedDim = 0
-    currentLedGain = 0
-
     def __init__(self):
         self.brightPi = BrightPi()
         self.brightPi.reset()
@@ -19,37 +16,62 @@ class Lights:
         return isON
 
     def ToggleDarkMode(self):
-        return self.Toggle(LED_IR);
+        return self.Toggle(LED_IR)
     
     def ToggleLights(self):
-        return self.Toggle(LED_WHITE);
+        return self.Toggle(LED_WHITE)
 
-    def SetGain(self):
-         if (request.method == 'POST'):
-            direction = data["direction"]
+    def StepGain(self, step):
+        currentGain = self.brightPi.get_gain()
+        newGain = currentGain + step
 
-        if(not direction ):
-            gain = data["gain"]
+        currentGain = newGain if newGain >= 0 else 0
+        currentGain = newGain if newGain <= BrightPi._max_gain else BrightPi._max_gain
 
-            if(not gain):
-                resp = jsonify(success=False)
-                resp.status_code = 400
-                return resp
+        self.brightPi.set_gain(currentGain)
+        return currentGain
 
-            gainNum = int(gain)
-            if(gainNum < 0 or gainNum >  BrightPi._max_gain):
-                gain = currentGain
-
-            currentGain = gainNum
+    def SetGain(self, gain):
+        currentGain = self.brightPi.get_gain()
+        if(gain < 0):
+            currentGain = 0
+        else if (gain > BrightPi._max_gain):
+            currentGain = BrightPi._max_gain
         else:
-            if((currentGain == 0 and direction == 'down') or (currentGain == BrightPi._max_gain and direction == 'up')):
-                resp = jsonify(currentGain=currentGain, success=True)
-                resp.status_code = 200
-                return resp
+            currentGain = gain
 
-            if(direction == "up"):
-                currentGain = currentGain + 1
-            else:
-                currentGain = currentGain - 1
+        self.brightPi.set_gain(currentGain)
+        return currentGain
 
-        brightPi.set_gain(currentGain)
+    def GetGain(self):
+        return self.brightPi.get_gain()
+
+    def StepDim(self, step):
+        currentDim = self.brightPi.get_led_dim()[0]
+
+        newDim = currentDim + step
+
+        currentDim = newDim if newDim >= 0 else 0
+        currentDim = newDim if newDim <= BrightPi._max_dim else BrightPi._max_dim
+
+        self.brightPi.set_led_dim(self.LED_WHITE_DIM, currentDim)
+        self.brightPi.set_led_dim(self.LED_IR_DIM, currentDim)
+        return currentDim
+
+    def SetDim(self, dim):
+        currentDim = self.brightPi.get_led_dim()[0]
+
+        if(dim < 0):
+            currentDim = 0
+        else if (dim > BrightPi._max_dim):
+            currentDim = BrightPi._max_dim
+        else:
+            currentDim = dim
+
+        self.brightPi.set_led_dim(self.LED_WHITE_DIM, currentDim)
+        self.brightPi.set_led_dim(self.LED_IR_DIM, currentDim)
+        return currentDim
+
+    def GetDim(self):
+        return self.brightPi.get_led_dim()[0]
+

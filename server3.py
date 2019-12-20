@@ -86,7 +86,7 @@ def gain():
             currentGain = lights.SetGain(int(data["gain"]))
         elif (data["direction"]):
             multi = -1 if data["direction"] == 'down' else 1
-            currentGain = lights.SetGain(step * multi)
+            currentGain = lights.StepGain(step * multi)
         else:
             resp = jsonify(success=False)
             resp.status_code = 400
@@ -129,6 +129,7 @@ def gain():
 
 @app.route('/dim', methods=['POST','GET'])
 def dim():
+    step = 5
     data = request.get_json()
     currentDim = lights.GetDim()
 
@@ -138,7 +139,7 @@ def dim():
             currentDim = lights.SetDim(int(data["dim"]))
         elif (data["direction"]):
             multi = -1 if data["direction"] == 'down' else 1
-            currentDim = lights.SetDim(step * multi)
+            currentDim = lights.StepDim(step * multi)
         else:
             resp = jsonify(success=False)
             resp.status_code = 400

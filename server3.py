@@ -82,13 +82,10 @@ def gain():
 
     if (request.method == 'POST'):
 
-        direction = data["direction"] if data["direction"] else False
-        gain = data["gain"] if data["gain"] else False
-
-        if(gain):
-            currentGain = lights.SetGain(int(gain))
-        elif (direction):
-            multi = -1 if direction == 'down' else 1
+        if (data["gain"]):
+            currentGain = lights.SetGain(int(data["gain"]))
+        elif (data["direction"]):
+            multi = -1 if data["direction"] == 'down' else 1
             currentGain = lights.SetGain(step * multi)
         else:
             resp = jsonify(success=False)
@@ -137,13 +134,10 @@ def dim():
 
     if (request.method == 'POST'):
 
-        direction = data["direction"] if data["direction"] else False
-        dim = data["dim"] if data["dim"] else False
-
-        if(dim):
-            currentDim = lights.SetDim(int(dim))
-        elif (direction):
-            multi = -1 if direction == 'down' else 1
+        if (data["dim"]):
+            currentDim = lights.SetDim(int(data["dim"]))
+        elif (data["direction"]):
+            multi = -1 if data["direction"] == 'down' else 1
             currentDim = lights.SetDim(step * multi)
         else:
             resp = jsonify(success=False)

@@ -4,7 +4,8 @@ from datetime import datetime
 import RPi.GPIO as GPIO
 
 from modules.servo import Servo
-from modules.streamingCamera import StreamingCamera
+#from modules.streamingCamera import StreamingCamera
+from controllers.camera import CameraController
 from modules.audio import Audio
 from modules.lights import Lights
 
@@ -107,19 +108,21 @@ def moveServo():
     return resp
 
 @app.route('/photo')
-def takePicture():
-    today = datetime.now()	
-    fileName = today.strftime("%Y-%m-%d-%H_%M_%S")
+def photo():
+    return takePicture(streamingCamera)
+    # today = datetime.now()	
+    # fileName = today.strftime("%Y-%m-%d-%H_%M_%S")
 
-    streamingCamera.TakePicture(fileName)
+    # streamingCamera.TakePicture(fileName)
 
-    resp = jsonify(success=True)
-    resp.status_code = 200
-    return resp
+    # resp = jsonify(success=True)
+    # resp.status_code = 200
+    # return resp
 
 @app.route('/stream.mjpg')
-def sendStream():
-    return Response(streamingCamera.Stream(), mimetype='multipart/x-mixed-replace; boundary=frame') 
+def stream():
+    return sendStream(streamingCamera)
+    #return Response(streamingCamera.Stream(), mimetype='multipart/x-mixed-replace; boundary=frame') 
 
 @app.route('/audio')
 def audio():   

@@ -30,8 +30,8 @@ def index():
 def dark():
     try:
         isON = lights.ToggleDarkMode()
-        streamingCamera.SetEffects(BLACK_AND_WHITE if isON else None)
-        
+        streamingCamera.SetEffects(BLACK_AND_WHITE if not isON else None)
+
         resp = jsonify(isON=(not isON), success=True)
         resp.status_code = 200
         return resp

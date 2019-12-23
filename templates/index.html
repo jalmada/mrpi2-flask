@@ -1,6 +1,7 @@
 <html> 
     <head> 
-      <title>Video Streaming </title> 
+      <title>Video Streaming </title>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
     </head> 
     <body> 
       <h1> Live Video Streaming </h1> 
@@ -28,12 +29,18 @@
       <button onclick="moveY(112)">Y:112</button>
       <button onclick="moveY(150)">Y:150</button>
 
+      ,<button onkeypress="moveServoSockets('up','90')">Test Servo</button>
+
       <audio controls>
           <source src="audio" type="audio/x-wav;codec=pcm">
           Your browser does not support the audio element.
       </audio>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
       <script lang="javascript">
+
+          var servoNamespace = '/servo';
+          var socket = io(namespace);
+
           function takePicture(){
             axios.get('/photo')
               .then(function (response) {
@@ -133,6 +140,7 @@
               console.log(error);
             });
           }
+
           var gainInput = document.getElementById("gain");
           gainInput.addEventListener("keyup", function(event) {
             if (event.keyCode === 13) {
@@ -151,7 +159,13 @@
             }
           });
 
+          function moveServoSockets(dir, degres){
+            console.log(dir + ' ' + degres);
+            socket.emit('move', {dir: dir, degres: degres});
+          }
+
           (() => {
+
             getGain();
             getDim();
           })()

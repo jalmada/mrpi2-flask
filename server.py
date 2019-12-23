@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, render_template, Response, request, stream_with_context
 import logging
 from datetime import datetime
+from threading import Lock
+from flask_socketio import SocketIO, emit, join_room, leave_room, close_room, rooms, disconnect
 import RPi.GPIO as GPIO
 
 from modules.servo import Servo
@@ -22,9 +24,21 @@ streamingAudio = Audio()
 
 app = Flask(__name__)
 
+#Sockets config
+async_mode = None
+app.config['SECRET_KEY'] = 'secret!'
+socketio = SocketIO(app, async_mode=async_mode)
+thread = None
+thread_lock = Lock()
+
 @app.route('/')
 def index():
     return render_template('index.html') 
+
+@socketio.on('move', namespace='/servo')
+def test_message(message):
+    print(f"Moving to {message['data']}")
+    emit('my_response', {'data': message['data']})
 
 @app.route('/dark', methods=['POST'])
 def dark():

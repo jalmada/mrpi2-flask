@@ -38,6 +38,7 @@ def index():
 @socketio.on('move', namespace='/servo')
 def test_message(message):
     print(f"Moving to {message}")
+    servo.Step(message['dir'], message['step'])
     emit('my_response', {'data': message})
 
 @app.route('/dark', methods=['POST'])

@@ -39,7 +39,7 @@
       <script lang="javascript">
 
           var servoNamespace = '/servo';
-          var socket = io(namespace);
+          var socket = io(servoNamespace);
 
           function takePicture(){
             axios.get('/photo')

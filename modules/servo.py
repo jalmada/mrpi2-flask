@@ -30,7 +30,7 @@ class Servo:
         self.yP.ChangeDutyCycle(0)
     
     def Step(self, dir, step):
-        Move(self.currentX + step)
+        self.Move(self.currentX + step)
 
     def Move(self, x, y):
         x, y = self.ResolvePosition(x, y)

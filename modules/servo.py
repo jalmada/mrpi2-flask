@@ -31,6 +31,8 @@ class Servo:
     
     def Step(self, dir, step):
         self.Move(self.currentX + step, self.currentY)
+        print(f'Moving: {self.currentX}, {self.currentY}')
+
 
     def Move(self, x, y):
         x, y = self.ResolvePosition(x, y)

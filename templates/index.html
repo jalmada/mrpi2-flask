@@ -29,7 +29,7 @@
       <button onclick="moveY(112)">Y:112</button>
       <button onclick="moveY(150)">Y:150</button>
 
-      <button id="moveServo">Test Servo</button>
+      <button id="moveServo" onmousedown="moveServo()" onmouseup="stopServo()" >Test Servo</button>
 
       <audio controls>
           <source src="audio" type="audio/x-wav;codec=pcm">
@@ -176,17 +176,17 @@
 
           var timer = null; // Will hold a reference to the timer
 
-          $("#moveServo").on('mousedown',function(event){ 
+          function moveServo (event){ 
            // Set the timer reference
            timer = setInterval(function() {
             console.log("Moving");
             socket.emit('move', {dir: 'up', degres: '90'});
            }, 100);
-          });
+          }
           
-          $("#moveServo").on('mouseup',function(event){ 
+          function stopServo (event){ 
             clearInterval(timer);
-          });
+          }
 
 
           (() => {

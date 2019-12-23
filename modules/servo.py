@@ -37,8 +37,8 @@ class Servo:
     def Move(self, x, y):
         x, y = self.ResolvePosition(x, y)
         self.SetAngle(x, y)
-        currentX = x
-        currentY = y
+        self.currentX = x
+        self.currentY = y
 
     def GetDuty(self, angle):
         return angle/18 + 2.5

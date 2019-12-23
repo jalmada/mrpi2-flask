@@ -29,7 +29,7 @@
       <button onclick="moveY(112)">Y:112</button>
       <button onclick="moveY(150)">Y:150</button>
 
-      <button onmousedown="moveServoSockets('up','90')">Test Servo</button>
+      <button onmousedown="moveServoSockets('up','90')" onmouseup="stopMovingServo()">Test Servo</button>
 
       <audio controls>
           <source src="audio" type="audio/x-wav;codec=pcm">
@@ -159,9 +159,17 @@
             }
           });
 
+          var movingServo = false;
+
           function moveServoSockets(dir, degres){
-            console.log(dir + ' ' + degres);
-            socket.emit('move', {dir: dir, degres: degres});
+            while(movingServo){
+              console.log(dir + ' ' + degres);
+              socket.emit('move', {dir: dir, degres: degres});
+            }
+          }
+
+          function stopMovingServo(){
+            movingServo = false;
           }
 
           (() => {

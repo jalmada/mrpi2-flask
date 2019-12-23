@@ -29,6 +29,9 @@ class Servo:
         self.xP.ChangeDutyCycle(0)
         self.yP.ChangeDutyCycle(0)
     
+    def Step(self, dir, step):
+        Move(self.currentX + step)
+
     def Move(self, x, y):
         x, y = self.ResolvePosition(x, y)
         self.SetAngle(x, y)

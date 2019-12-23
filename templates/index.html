@@ -180,7 +180,7 @@
            // Set the timer reference
            timer = setInterval(function() {
             socket.emit('move', {dir: dir, step: step});
-           }, 500);
+           }, 1000);
           }
           
           function stopServo (event){ 

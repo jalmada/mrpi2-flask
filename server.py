@@ -37,8 +37,8 @@ def index():
 
 @socketio.on('move', namespace='/servo')
 def test_message(message):
-    print(f"Moving to {message['data']}")
-    emit('my_response', {'data': message['data']})
+    print(f"Moving to {message}")
+    emit('my_response', {'data': message})
 
 @app.route('/dark', methods=['POST'])
 def dark():

@@ -162,6 +162,7 @@
           var movingServo = false;
 
           function moveServoSockets(dir, degres){
+            movingServo = true;
             while(movingServo){
               console.log(dir + ' ' + degres);
               socket.emit('move', {dir: dir, degres: degres});

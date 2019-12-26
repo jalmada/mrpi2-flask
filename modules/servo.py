@@ -17,20 +17,23 @@ class Servo:
         self.yP = GPIO.PWM(yPin, 43)    
 
     def SetAngle(self, angleX, angleY):
-        self.xP.start(0)
-        self.yP.start(0)
+        if(angleX != self.currentX):
+            self.xP.start(0)
+            dutyX = self.GetDuty(angleX)
+            self.xP.ChangeDutyCycle(dutyX)
 
-        dutyX = self.GetDuty(angleX)
-        dutyY = self.GetDuty(angleY)
+        if(angleY != self.currentY):
+            self.yP.start(0)
+            dutyY = self.GetDuty(angleY)
+            self.yP.ChangeDutyCycle(dutyY)
 
-        self.xP.ChangeDutyCycle(dutyX)
-        self.yP.ChangeDutyCycle(dutyY)
         sleep(1)
+        
         self.xP.ChangeDutyCycle(0)
         self.yP.ChangeDutyCycle(0)
     
-    def Step(self, dir, step):
-        self.Move(self.currentX + step, self.currentY)
+    def Step(self, xstep, ystep):
+        self.Move(self.currentX + xstep, self.currentY + ystep)
         print(f'Moving: {self.currentX}, {self.currentY}')
 
 

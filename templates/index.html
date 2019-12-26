@@ -29,7 +29,14 @@
       <button onclick="moveY(112)">Y:112</button>
       <button onclick="moveY(150)">Y:150</button>
 
-      <button id="moveServo" onmousedown="moveServo('left',1)" onmouseup="stopServo()" >Test Servo</button>
+      <button id="moveServo" onmousedown="moveServo(-1,5,0,0)" onmouseup="stopServo()" >Up</button>
+      <button id="moveServo" onmousedown="moveServo(-1,5,1,5)" onmouseup="stopServo()" >UpRight</button>
+      <button id="moveServo" onmousedown="moveServo(0,0,1,5)" onmouseup="stopServo()" >Right</button>
+      <button id="moveServo" onmousedown="moveServo(1,5,1,5)" onmouseup="stopServo()" >DownRight</button>
+      <button id="moveServo" onmousedown="moveServo(1,5,0,0)" onmouseup="stopServo()" >Down</button>
+      <button id="moveServo" onmousedown="moveServo(1,5,-1,5)" onmouseup="stopServo()" >DownLeft</button>
+      <button id="moveServo" onmousedown="moveServo(0,0,-1,5)" onmouseup="stopServo()" >Left</button>
+      <button id="moveServo" onmousedown="moveServo(-1,5,-1,5)" onmouseup="stopServo()" >LeftUp</button>
 
       <audio controls>
           <source src="audio" type="audio/x-wav;codec=pcm">
@@ -176,10 +183,10 @@
 
           var timer = null; // Will hold a reference to the timer
 
-          function moveServo (dir, step){ 
+          function moveServo (xd, yd, xs, ys){ 
            // Set the timer reference
-           timer = setInterval(function() {
-            socket.emit('move', {dir: dir, step: step});
+            timer = setInterval(function() {
+            socket.emit('move', {xstep: xdir * xstep, ystep: ydir * ystep});
            }, 1000);
           }
           

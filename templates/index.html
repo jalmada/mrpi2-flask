@@ -166,24 +166,9 @@
             }
           });
 
-          var movingServo = false;
-
-          function moveServoSockets(dir, degres){
-            movingServo = true;
-            while(movingServo){
-              console.log(dir + ' ' + degres);
-              socket.emit('move', {dir: dir, degres: degres});
-            }
-          }
-
-          function stopMovingServo(){
-            movingServo = false;
-          }
-
-
           var timer = null; // Will hold a reference to the timer
 
-          function moveServo (xd, yd, xs, ys){ 
+          function moveServo (xd, xs, yd, ys){ 
            // Set the timer reference
             timer = setInterval(function() {
             socket.emit('move', {xstep: xd * xs, ystep: yd * ys});

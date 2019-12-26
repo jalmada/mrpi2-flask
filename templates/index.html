@@ -186,7 +186,7 @@
           function moveServo (xd, yd, xs, ys){ 
            // Set the timer reference
             timer = setInterval(function() {
-            socket.emit('move', {xstep: xdir * xstep, ystep: ydir * ystep});
+            socket.emit('move', {xstep: xd * xs, ystep: yd * ys});
            }, 1000);
           }
           

@@ -8,8 +8,8 @@ class Servo:
     servoXMax = 180
     servoYMax = 150
 
-    currentX = 0
-    currentY = 0
+    currentX = -1
+    currentY = -1
 
     def __init__(self, xPin, yPin):
         self.xPin = xPin

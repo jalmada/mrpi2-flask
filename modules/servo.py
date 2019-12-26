@@ -1,5 +1,7 @@
 import RPi.GPIO as GPIO
 from time import sleep
+import json
+import os
 
 class Servo:
 
@@ -14,7 +16,10 @@ class Servo:
         self.yPin = yPin
 
         self.xP = GPIO.PWM(xPin, 50)
-        self.yP = GPIO.PWM(yPin, 43)    
+        self.yP = GPIO.PWM(yPin, 43)
+
+        self.currentX, self.currentY = GetLastPosition()
+        self.Move(self.currentX, self.currentY)
 
     def SetAngle(self, angleX, angleY):
         if(angleX != self.currentX):
@@ -28,7 +33,7 @@ class Servo:
             self.yP.ChangeDutyCycle(dutyY)
 
         sleep(1)
-        
+
         self.xP.ChangeDutyCycle(0)
         self.yP.ChangeDutyCycle(0)
     
@@ -39,9 +44,11 @@ class Servo:
 
     def Move(self, x, y):
         x, y = self.ResolvePosition(x, y)
+        
         self.SetAngle(x, y)
         self.currentX = x
         self.currentY = y
+        self.SaveLastPosition()
 
     def GetDuty(self, angle):
         return angle/18 + 2.5
@@ -58,3 +65,19 @@ class Servo:
     def Stop(self):
         self.xP.stop()
         self.yP.stop()
+
+    def SaveLastPosition(self):
+        data = {}
+        data['x'] = self.currentX
+        data['y'] = self.currentY
+        
+        with open('lastpos.json', 'w') as outfile:
+            json.dump(data, outfile)
+    
+    def GetLastPosition(self):
+        if os.path.isfile('filename.txt'):
+            with open('data.txt') as json_file:
+                data = json.load(json_file)
+            return data['x'],data['y']
+        else: 
+            return 0,0

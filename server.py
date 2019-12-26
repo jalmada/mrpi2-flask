@@ -36,7 +36,7 @@ def index():
     return render_template('index.html') 
 
 @socketio.on('move', namespace='/servo')
-def move(message):
+def moveSocket(message):
     print(f"Moving to {message}")
 
     xstep = message['xstep']
@@ -112,17 +112,17 @@ def dim():
     resp.status_code = 200
     return resp
 
-# @app.route('/move',  methods=['POST'])
-# def moveServo():
-#     data = request.get_json()
-#     currentServoX = int(data["x"]) if data["x"] else 0
-#     currentServoY = int(data["y"]) if data["y"] else 0
+@app.route('/move',  methods=['POST'])
+def moveServo():
+    data = request.get_json()
+    currentServoX = int(data["x"]) if data["x"] else 0
+    currentServoY = int(data["y"]) if data["y"] else 0
 
-#     servo.Move(currentServoX, currentServoY)
+    servo.Move(currentServoX, currentServoY)
 
-#     resp = jsonify(success=True)
-#     resp.status_code = 200
-#     return resp
+    resp = jsonify(success=True)
+    resp.status_code = 200
+    return resp
 
 @app.route('/photo')
 def photo():

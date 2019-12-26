@@ -16,9 +16,11 @@ class Servo:
         self.yPin = yPin
 
         self.xP = GPIO.PWM(xPin, 50)
-        self.yP = GPIO.PWM(yPin, 43)
+        self.yP = GPIO.PWM(yPin, 50)
 
         self.currentX, self.currentY = self.GetLastPosition()
+        print(self.currentX)
+        print(self.currentY)
         self.Move(self.currentX, self.currentY)
 
     def SetAngle(self, angleX, angleY):

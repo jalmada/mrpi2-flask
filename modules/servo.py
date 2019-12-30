@@ -16,7 +16,7 @@ class Servo:
         self.yPin = yPin
 
         self.xP = GPIO.PWM(xPin, 50)
-        self.yP = GPIO.PWM(yPin, 50)
+        self.yP = GPIO.PWM(yPin, 45)
 
         self.currentX, self.currentY = self.GetLastPosition()
         print(self.currentX)

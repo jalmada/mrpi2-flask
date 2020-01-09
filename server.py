@@ -23,6 +23,7 @@ streamingCamera.Flip(True, True)
 streamingAudio = Audio()
 
 app = Flask(__name__)
+CORS(app)
 
 #Sockets config
 async_mode = None

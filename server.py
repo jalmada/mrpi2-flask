@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, render_template, Response, request, stream_with_context
+from flask_cors import CORS
 import logging
 from datetime import datetime
 from threading import Lock

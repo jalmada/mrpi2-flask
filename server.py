@@ -1,6 +1,9 @@
 from flask import Flask, jsonify, render_template, Response, request, stream_with_context
+from flask_cors import CORS
 import logging
 from datetime import datetime
+from threading import Lock
+from flask_socketio import SocketIO, emit, join_room, leave_room, close_room, rooms, disconnect
 import RPi.GPIO as GPIO
 
 from modules.servo import Servo
@@ -21,10 +24,28 @@ streamingCamera.Flip(True, True)
 streamingAudio = Audio()
 
 app = Flask(__name__)
+CORS(app)
+
+#Sockets config
+async_mode = None
+app.config['SECRET_KEY'] = 'secret!'
+socketio = SocketIO(app, async_mode=async_mode)
+thread = None
+thread_lock = Lock()
 
 @app.route('/')
 def index():
     return render_template('index.html') 
+
+@socketio.on('move', namespace='/servo')
+def moveSocket(message):
+    print(f"Moving to {message}")
+
+    xstep = message['xstep']
+    ystep = message['ystep']
+
+    servo.Step(xstep, ystep)
+    emit('my_response', {'data': message})
 
 @app.route('/dark', methods=['POST'])
 def dark():

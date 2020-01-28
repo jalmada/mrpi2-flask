@@ -52,7 +52,7 @@ def dark():
     try:
         if (request.method == 'GET'):
             isON = lights.GetDarkModeStatus()
-            resp = jsonify(isON=(not isON), success=True)
+            resp = jsonify(isON=(isON), success=True)
             resp.status_code = 200
             return resp
     
@@ -70,7 +70,7 @@ def light():
     try:
         if (request.method == 'GET'):
             isON = lights.GetLightModeStatus()
-            resp = jsonify(isON=(not isON), success=True)
+            resp = jsonify(isON=(isON), success=True)
             resp.status_code = 200
             return resp
 

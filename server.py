@@ -3,7 +3,7 @@ from flask_cors import CORS
 import logging
 from datetime import datetime
 from threading import Lock
-from flask_socketio import SocketIO, emit, join_room, leave_room, close_room, rooms, disconnect
+#from flask_socketio import SocketIO, emit, join_room, leave_room, close_room, rooms, disconnect
 import RPi.GPIO as GPIO
 
 from modules.servo import Servo
@@ -38,14 +38,14 @@ def index():
     return render_template('index.html') 
 
 #@socketio.on('move', namespace='/servo')
-def moveSocket(message):
-    print(f"Moving to {message}")
+# def moveSocket(message):
+#     print(f"Moving to {message}")
 
-    xstep = message['xstep']
-    ystep = message['ystep']
+#     xstep = message['xstep']
+#     ystep = message['ystep']
 
-    servo.Step(xstep, ystep)
-    emit('my_response', {'data': message})
+#     servo.Step(xstep, ystep)
+#     emit('my_response', {'data': message})
 
 @app.route('/dark', methods=['POST', 'GET'])
 def dark():

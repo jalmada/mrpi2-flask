@@ -29,7 +29,7 @@ CORS(app)
 #Sockets config
 async_mode = None
 app.config['SECRET_KEY'] = 'secret!'
-socketio = SocketIO(app, async_mode=async_mode)
+#socketio = SocketIO(app, async_mode=async_mode)
 thread = None
 thread_lock = Lock()
 
@@ -37,7 +37,7 @@ thread_lock = Lock()
 def index():
     return render_template('index.html') 
 
-@socketio.on('move', namespace='/servo')
+#@socketio.on('move', namespace='/servo')
 def moveSocket(message):
     print(f"Moving to {message}")
 

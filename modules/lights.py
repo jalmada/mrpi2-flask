@@ -10,7 +10,7 @@ class Lights:
         self.brightPi.reset()
 
     def Toggle(self, LEDS):
-        isON = GetStatus(LEDS)
+        isON = self.GetStatus(LEDS)
         self.brightPi.set_led_on_off(LEDS, (ON if not isON else OFF))
         return isON
 

@@ -47,9 +47,15 @@ def moveSocket(message):
     servo.Step(xstep, ystep)
     emit('my_response', {'data': message})
 
-@app.route('/dark', methods=['POST'])
+@app.route('/dark', methods=['POST', 'GET'])
 def dark():
     try:
+        if (request.method == 'GET'):
+            isON = lights.GetDarkModeStatus()
+            resp = jsonify(isON=(not isON), success=True)
+            resp.status_code = 200
+            return resp
+    
         isON = lights.ToggleDarkMode()
         streamingCamera.SetEffects(BLACK_AND_WHITE if not isON else None)
 
@@ -59,9 +65,15 @@ def dark():
     except Exception as e:
         logging.error(e)
 
-@app.route('/light', methods=['POST'])
+@app.route('/light', methods=['POST','GET'])
 def light():
     try:
+        if (request.method == 'GET'):
+            isON = lights.GetLightModeStatus()
+            resp = jsonify(isON=(not isON), success=True)
+            resp.status_code = 200
+            return resp
+
         isON = lights.ToggleLights()
 
         resp = jsonify(isON=(not isON), success=True)

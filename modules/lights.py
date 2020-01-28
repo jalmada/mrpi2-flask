@@ -10,10 +10,20 @@ class Lights:
         self.brightPi.reset()
 
     def Toggle(self, LEDS):
-        ledsStatus = self.brightPi.get_led_on_off(LEDS)
-        isON = any(led != 0 for led in ledsStatus)
+        isON = GetStatus(LEDS)
         self.brightPi.set_led_on_off(LEDS, (ON if not isON else OFF))
         return isON
+
+    def GetStatus(self, LEDS):
+        ledsStatus = self.brightPi.get_led_on_off(LEDS)
+        isON = any(led != 0 for led in ledsStatus)
+        return isON
+
+    def GetLightModeStatus(self):
+        return self.GetStatus(LED_WHITE)
+
+    def GetDarkModeStatus(self):
+        return self.GetStatus(LED_IR)
 
     def ToggleDarkMode(self):
         return self.Toggle(LED_IR)

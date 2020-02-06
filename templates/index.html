@@ -1,7 +1,7 @@
 <html> 
     <head> 
       <title>Video Streaming </title>
-      <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script> -->
+      <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
     </head> 
     <body> 
       <h1> Live Video Streaming </h1> 
@@ -45,8 +45,8 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
       <script lang="javascript">
 
-          //var servoNamespace = '/servo';
-          //var socket = io(servoNamespace);
+          var servoNamespace = '/servo';
+          var socket = io(servoNamespace);
 
           function takePicture(){
             axios.get('/photo')
@@ -78,7 +78,6 @@
             });
           }
           function setDim(direction, dim){
-            //alert( document.getElementById("dim").value);
             axios.post('/dim', {direction: direction, dim: dim})
               .then(function (response) {
                 document.getElementById("dim").value = response.data.currentDim;
@@ -89,7 +88,6 @@
             });
           }
           function getDim(){
-            //alert( document.getElementById("dim").value);
             axios.get('/dim')
               .then(function (response) {
                 document.getElementById("dim").value = response.data.currentDim;
@@ -100,7 +98,6 @@
             });
           }
           function getGain(){
-            //alert( document.getElementById("gain").value);
             axios.get('/gain')
               .then(function (response) {
                 document.getElementById("gain").value = response.data.currentGain;
@@ -111,7 +108,6 @@
             });
           }
           function setGain(direction, gain){
-            //alert( document.getElementById("gain").value);
             axios.post('/gain', {direction: direction, gain: gain})
               .then(function (response) {
                 document.getElementById("gain").value = response.data.currentGain;
@@ -126,7 +122,6 @@
           var currentY = 0;
 
           function moveX(x){
-            //alert( document.getElementById("gain").value);
             currentX = x;
             axios.post('/move', {x: x, y: currentY})
               .then(function (response) {
@@ -137,7 +132,6 @@
             });
           }
           function moveY(y){
-            //alert( document.getElementById("gain").value);
             currentY = y;
             axios.post('/move', {x: currentX, y: y})
               .then(function (response) {
@@ -168,16 +162,16 @@
 
           var timer = null; // Will hold a reference to the timer
 
-          //function moveServo (xd, xs, yd, ys){ 
-           // Set the timer reference
-            //timer = setInterval(function() {
-            //socket.emit('move', {xstep: xd * xs, ystep: yd * ys});
-           //}, 1000);
-          //}
+          function moveServo (xd, xs, yd, ys){ 
+            //Set the timer reference
+            timer = setInterval(function() {
+            socket.emit('move', {xstep: xd * xs, ystep: yd * ys});
+           }, 1000);
+          }
           
-          //function stopServo (event){ 
-            //clearInterval(timer);
-          //}
+          function stopServo (event){ 
+            clearInterval(timer);
+          }
 
 
           (() => {

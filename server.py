@@ -3,24 +3,15 @@ from flask_cors import CORS
 import logging
 from datetime import datetime
 from threading import Lock
-#from flask_socketio import SocketIO, emit, join_room, leave_room, close_room, rooms, disconnect
+from flask_socketio import SocketIO, emit, join_room, leave_room, close_room, rooms, disconnect
 import RPi.GPIO as GPIO
 
-#from modules.servo import Servo
 from modules.servoAda import ServoAda
 from modules.streamingCamera import *
 from modules.audio import Audio
-#from modules.lights import Lights
 
-#Servo Pins
-#GPIO.setmode(GPIO.BOARD)
-#GPIO.setup(7, GPIO.OUT)
-#GPIO.setup(12, GPIO.OUT)
-print(GPIO.getmode())
 #Initialize Modules
-#servo = Servo(7, 12)
 servo = ServoAda(0, 1)
-#lights = Lights()
 streamingCamera = StreamingCamera(True)
 streamingCamera.Flip(True, True)
 streamingAudio = Audio()
@@ -31,7 +22,7 @@ CORS(app)
 #Sockets config
 async_mode = None
 app.config['SECRET_KEY'] = 'secret!'
-#socketio = SocketIO(app, async_mode=async_mode)
+socketio = SocketIO(app, async_mode=async_mode)
 thread = None
 thread_lock = Lock()
 
@@ -39,15 +30,15 @@ thread_lock = Lock()
 def index():
     return render_template('index.html') 
 
-#@socketio.on('move', namespace='/servo')
-# def moveSocket(message):
-#     print(f"Moving to {message}")
+@socketio.on('move', namespace='/servo')
+def moveSocket(message):
+    print(f"Moving to {message}")
 
-#     xstep = message['xstep']
-#     ystep = message['ystep']
+    xstep = message['xstep']
+    ystep = message['ystep']
 
-#     servo.Step(xstep, ystep)
-#     emit('my_response', {'data': message})
+    servo.Step(xstep, ystep)
+    emit('my_response', {'data': message})
 
 @app.route('/dark', methods=['POST', 'GET'])
 def dark():

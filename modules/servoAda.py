@@ -19,8 +19,8 @@ class ServoAda:
         self.xIndex = xIndex
         self.yIndex = yIndex
 
-        self.servoX = kit.servo[self.xIndex]
-        self.servoY = kit.servo[self.yIndex]
+        self.servoX = self.kit.servo[self.xIndex]
+        self.servoY = self.kit.servo[self.yIndex]
 
        
         self.currentX, self.currentY = self.GetLastPosition()

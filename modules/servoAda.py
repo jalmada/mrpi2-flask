@@ -28,10 +28,10 @@ class ServoAda:
 
     def SetAngle(self, angleX, angleY):
         if(angleX != self.currentX):
-            self.servoX = angleX
+            self.servoX.angle = angleX
 
         if(angleY != self.currentY):
-            self.servoY = angleY
+            self.servoY.angle = angleY
     
     def Step(self, xstep, ystep):
         self.Move(self.currentX + xstep, self.currentY + ystep)
@@ -39,7 +39,6 @@ class ServoAda:
 
 
     def Move(self, x, y):
-        print(f"Move {x} {y}")
         x, y = self.ResolvePosition(x, y)
         
         self.SetAngle(x, y)

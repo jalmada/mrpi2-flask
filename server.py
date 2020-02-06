@@ -163,8 +163,8 @@ if (__name__ == '__main__'):
     try:
         app.run(host='0.0.0.0', port=3000,  threaded=True)
     except Exception as e:
-        servo.Stop()
+        #servo.Stop()
         streamingCamera.Stop()
-        GPIO.cleanup()
+        #GPIO.cleanup()
 
 

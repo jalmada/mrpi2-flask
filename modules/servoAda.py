@@ -39,6 +39,7 @@ class ServoAda:
 
 
     def Move(self, x, y):
+        print(f"Move {x} {y}")
         x, y = self.ResolvePosition(x, y)
         
         self.SetAngle(x, y)

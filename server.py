@@ -6,10 +6,11 @@ from threading import Lock
 #from flask_socketio import SocketIO, emit, join_room, leave_room, close_room, rooms, disconnect
 import RPi.GPIO as GPIO
 
-from modules.servo import Servo
+#from modules.servo import Servo
+from modules.servoAda import ServoAda
 from modules.streamingCamera import *
 from modules.audio import Audio
-from modules.lights import Lights
+#from modules.lights import Lights
 
 #Servo Pins
 GPIO.setmode(GPIO.BOARD)
@@ -17,8 +18,9 @@ GPIO.setup(7, GPIO.OUT)
 GPIO.setup(12, GPIO.OUT)
 
 #Initialize Modules
-servo = Servo(7, 12)
-lights = Lights()
+#servo = Servo(7, 12)
+servo = ServoAda(0, 1)
+#lights = Lights()
 streamingCamera = StreamingCamera(True)
 streamingCamera.Flip(True, True)
 streamingAudio = Audio()

@@ -13,10 +13,10 @@ from modules.audio import Audio
 #from modules.lights import Lights
 
 #Servo Pins
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(7, GPIO.OUT)
-GPIO.setup(12, GPIO.OUT)
-
+#GPIO.setmode(GPIO.BOARD)
+#GPIO.setup(7, GPIO.OUT)
+#GPIO.setup(12, GPIO.OUT)
+print(GPIO.getmode())
 #Initialize Modules
 #servo = Servo(7, 12)
 servo = ServoAda(0, 1)

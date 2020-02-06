@@ -22,6 +22,7 @@ CORS(app)
 #Sockets config
 async_mode = None
 app.config['SECRET_KEY'] = 'secret!'
+app.config['CORS_SUPPORTS_CREDENTIALS'] = True
 socketio = SocketIO(app, async_mode=async_mode)
 thread = None
 thread_lock = Lock()

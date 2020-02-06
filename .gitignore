@@ -1,6 +1,7 @@
 .vscode
 env
 captures
+modules
 modules/__pycache__
 __pycache__
 lastpos.json

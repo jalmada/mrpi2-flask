@@ -35,8 +35,8 @@ def index():
 @socketio.on('move', namespace='/servo')
 def moveSocket(message):
 
-    if(!thread_lock.locked):
-        if(!thread_lock.acquire()):
+    if(not thread_lock.locked):
+        if(not thread_lock.acquire()):
             return
 
         print(f"Moving to {message}")

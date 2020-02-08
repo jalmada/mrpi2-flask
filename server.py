@@ -34,13 +34,20 @@ def index():
 
 @socketio.on('move', namespace='/servo')
 def moveSocket(message):
-    print(f"Moving to {message}")
 
-    xstep = message['xstep']
-    ystep = message['ystep']
+    if(!thread_lock.locked):
+        if(!thread_lock.acquire()):
+            return
 
-    servo.Step(xstep, ystep)
-    emit('my_response', {'data': message})
+        print(f"Moving to {message}")
+
+        xstep = message['xstep']
+        ystep = message['ystep']
+
+        servo.Step(xstep, ystep)
+        emit('my_response', {'data': message})
+        thread_lock.release()
+
 
 @app.route('/dark', methods=['POST', 'GET'])
 def dark():

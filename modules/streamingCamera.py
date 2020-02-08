@@ -7,7 +7,7 @@ BLACK_AND_WHITE = (128, 128)
 class StreamingCamera:
 
     def __init__(self, startRecording):
-        self.camera = picamera.PiCamera(resolution='720p', framerate=60)
+        self.camera = picamera.PiCamera(resolution='720x540', framerate=60)
         self.output = StreamingOutput()
         if(startRecording):
             self.StartRecording()

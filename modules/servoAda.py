@@ -78,8 +78,8 @@ class ServoAda:
         if os.path.isfile('lastpos.json'):
             with open('lastpos.json') as json_file:
                 data = json.load(json_file)
-                stepX = self.currentStepX if 'stepX' in not data else data['stepX']
-                stepY = self.currentStepY if 'stepY' in not data else data['stepY']
+                stepX = self.currentStepX if 'stepX' not in data else data['stepX']
+                stepY = self.currentStepY if 'stepY' not in data else data['stepY']
 
             return data['x'],data['y'], stepX, stepY
         else: 

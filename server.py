@@ -132,6 +132,18 @@ def moveServo():
     resp.status_code = 200
     return resp
 
+@app.route('/step', methods=['GET','POST']):
+def step():
+    data = request.get_json()
+    if (request.method == 'POST'):
+        servo.currentStepX = int(data['xstep']) 
+        servo.currentStepY = int(data['ystep'])
+
+    resp = jsonify(xstep=servo.currentStepX, ystep=servo.currentStepY, success=True)
+    resp.status_code = 200
+    return resp
+
+
 @app.route('/photo')
 def photo():
     today = datetime.now()	

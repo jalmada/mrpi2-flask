@@ -9,6 +9,8 @@ class ServoAda:
 
     currentX = -1
     currentY = -1
+    currentStepX = 5
+    currentStepY = 5
 
     channels = 16
     address = 0x41
@@ -23,7 +25,7 @@ class ServoAda:
         self.servoY = self.kit.servo[self.yIndex]
 
        
-        self.currentX, self.currentY = self.GetLastPosition()
+        self.currentX, self.currentY, self.currentStepX, self.currentStepY = self.GetLastPosition()
         self.Move(self.currentX, self.currentY)
 
     def SetAngle(self, angleX, angleY):
@@ -33,8 +35,15 @@ class ServoAda:
         if(angleY != self.currentY):
             self.servoY.angle = angleY
     
-    def Step(self, xstep, ystep):
-        self.Move(self.currentX + xstep, self.currentY + ystep)
+    def Step(self, xstep = None, ystep = None):
+
+        if(xstep is not None):
+            self.currentStepX = xstep
+
+        if(ystep is not None):
+            self.currentStepY = ystep
+
+        self.Move(self.currentX + self.currentStepX, self.currentY + self.currentStepY)
         print(f'Moving: {self.currentX}, {self.currentY}')
 
 
@@ -59,6 +68,8 @@ class ServoAda:
         data = {}
         data['x'] = self.currentX
         data['y'] = self.currentY
+        data['stepX'] = self.currentStepX
+        data['stepY'] = self.currentStepY
         
         with open('lastpos.json', 'w') as outfile:
             json.dump(data, outfile)
@@ -67,6 +78,6 @@ class ServoAda:
         if os.path.isfile('lastpos.json'):
             with open('lastpos.json') as json_file:
                 data = json.load(json_file)
-            return data['x'],data['y']
+            return data['x'],data['y'], data['stepX'], data['stepY']
         else: 
             return 0,0

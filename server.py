@@ -132,7 +132,7 @@ def moveServo():
     resp.status_code = 200
     return resp
 
-@app.route('/step', methods=['GET','POST']):
+@app.route('/step', methods=['GET','POST'])
 def step():
     data = request.get_json()
     if (request.method == 'POST'):

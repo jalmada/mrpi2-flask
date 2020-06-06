@@ -40,6 +40,7 @@ def moveSocket(message):
 
     servo.Step(xstep, ystep)
     emit('my_response', {'data': message})
+    print(f'Moving x: {xstep} y: {ystep}')
 
 
 # @app.route('/dark', methods=['POST', 'GET'])

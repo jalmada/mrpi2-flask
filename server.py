@@ -41,84 +41,84 @@ def moveSocket(message):
     emit('my_response', {'data': message})
 
 
-@app.route('/dark', methods=['POST', 'GET'])
-def dark():
-    try:
-        if (request.method == 'GET'):
-            isON = lights.GetDarkModeStatus()
-            resp = jsonify(isON=(isON), success=True)
-            resp.status_code = 200
-            return resp
+# @app.route('/dark', methods=['POST', 'GET'])
+# def dark():
+#     try:
+#         if (request.method == 'GET'):
+#             #isON = lights.GetDarkModeStatus()
+#             #resp = jsonify(isON=(isON), success=True)
+#             resp.status_code = 200
+#             return resp
     
-        isON = lights.ToggleDarkMode()
-        streamingCamera.SetEffects(BLACK_AND_WHITE if not isON else None)
+#         #isON = lights.ToggleDarkMode()
+#         streamingCamera.SetEffects(BLACK_AND_WHITE if not isON else None)
 
-        resp = jsonify(isON=(not isON), success=True)
-        resp.status_code = 200
-        return resp
-    except Exception as e:
-        logging.error(e)
+#         #resp = jsonify(isON=(not isON), success=True)
+#         resp.status_code = 200
+#         return resp
+#     except Exception as e:
+#         logging.error(e)
 
-@app.route('/light', methods=['POST','GET'])
-def light():
-    try:
-        if (request.method == 'GET'):
-            isON = lights.GetLightModeStatus()
-            resp = jsonify(isON=(isON), success=True)
-            resp.status_code = 200
-            return resp
+# @app.route('/light', methods=['POST','GET'])
+# def light():
+#     try:
+#         if (request.method == 'GET'):
+#             isON = lights.GetLightModeStatus()
+#             resp = jsonify(isON=(isON), success=True)
+#             resp.status_code = 200
+#             return resp
 
-        isON = lights.ToggleLights()
+#         isON = lights.ToggleLights()
 
-        resp = jsonify(isON=(not isON), success=True)
-        resp.status_code = 200
-        return resp
-    except Exception as e:
-        logging.error(e) 
+#         resp = jsonify(isON=(not isON), success=True)
+#         resp.status_code = 200
+#         return resp
+#     except Exception as e:
+#         logging.error(e) 
 
-@app.route('/gain', methods=['POST','GET'])
-def gain():
-    step = 5
-    data = request.get_json()
-    currentGain = lights.GetGain()
+# @app.route('/gain', methods=['POST','GET'])
+# def gain():
+#     step = 5
+#     data = request.get_json()
+#     currentGain = lights.GetGain()
 
-    if (request.method == 'POST'):
+#     if (request.method == 'POST'):
 
-        if (data["gain"]):
-            currentGain = lights.SetGain(int(data["gain"]))
-        elif (data["direction"]):
-            multi = -1 if data["direction"] == 'down' else 1
-            currentGain = lights.StepGain(step * multi)
-        else:
-            resp = jsonify(success=False)
-            resp.status_code = 400
-            return resp
+#         if (data["gain"]):
+#             currentGain = lights.SetGain(int(data["gain"]))
+#         elif (data["direction"]):
+#             multi = -1 if data["direction"] == 'down' else 1
+#             currentGain = lights.StepGain(step * multi)
+#         else:
+#             resp = jsonify(success=False)
+#             resp.status_code = 400
+#             return resp
 
-    resp = jsonify(currentGain=currentGain, success=True)
-    resp.status_code = 200
-    return resp
+#     resp = jsonify(currentGain=currentGain, success=True)
+#     resp.status_code = 200
+#     return resp
 
-@app.route('/dim', methods=['POST','GET'])
-def dim():
-    step = 5
-    data = request.get_json()
-    currentDim = lights.GetDim()
+# @app.route('/dim', methods=['POST','GET'])
+# def dim():
+#     step = 5
+#     data = request.get_json()
+#     currentDim = lights.GetDim()
 
-    if (request.method == 'POST'):
+#     if (request.method == 'POST'):
 
-        if (data["dim"]):
-            currentDim = lights.SetDim(int(data["dim"]))
-        elif (data["direction"]):
-            multi = -1 if data["direction"] == 'down' else 1
-            currentDim = lights.StepDim(step * multi)
-        else:
-            resp = jsonify(success=False)
-            resp.status_code = 400
-            return resp
+#         if (data["dim"]):
+#             currentDim = lights.SetDim(int(data["dim"]))
+#         elif (data["direction"]):
+#             multi = -1 if data["direction"] == 'down' else 1
+#             currentDim = lights.StepDim(step * multi)
+#         else:
+#             resp = jsonify(success=False)
+#             resp.status_code = 400
+#             return resp
 
-    resp = jsonify(currentDim=currentDim, success=True)
-    resp.status_code = 200
-    return resp
+#     resp = jsonify(currentDim=currentDim, success=True)
+#     resp.status_code = 200
+#     return resp
 
 @app.route('/move',  methods=['POST'])
 def moveServo():

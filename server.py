@@ -16,7 +16,7 @@ streamingCamera = StreamingCamera(True)
 streamingCamera.Flip(True, True)
 streamingAudio = Audio()
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='public')
 CORS(app)
 
 #Sockets config

@@ -35,6 +35,7 @@ def index():
 
 @socketio.on('move', namespace='/servo')
 def moveSocket(message):
+    print("stuff")
     xstep = message['xstep']
     ystep = message['ystep']
 

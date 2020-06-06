@@ -5,7 +5,7 @@ from datetime import datetime
 from threading import Lock
 from flask_socketio import SocketIO, emit, join_room, leave_room, close_room, rooms, disconnect
 import RPi.GPIO as GPIO
-
+import os
 from modules.servoAda import ServoAda
 from modules.streamingCamera import *
 from modules.audio import Audio
@@ -16,7 +16,8 @@ streamingCamera = StreamingCamera(True)
 streamingCamera.Flip(True, True)
 streamingAudio = Audio()
 
-app = Flask(__name__, static_url_path='/public')
+app = Flask(__name__)
+app._static_folder = os.path.abspath("templates/static/")
 CORS(app)
 
 #Sockets config

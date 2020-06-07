@@ -77,8 +77,8 @@ class Servo:
             json.dump(data, outfile)
     
     def GetLastPosition(self):
-        if os.path.isfile('filename.txt'):
-            with open('data.txt') as json_file:
+        if os.path.isfile('lastpos.json'):
+            with open('lastpos.json') as json_file:
                 data = json.load(json_file)
             return data['x'],data['y']
         else: 

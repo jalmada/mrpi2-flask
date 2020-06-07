@@ -39,8 +39,8 @@ def moveSocket(message):
     xstep = message['xstep']
     ystep = message['ystep']
 
-    servo.Step(xstep, ystep)
-    emit('my_response', {'data': message})
+    #servo.Step(xstep, ystep)
+    #emit('my_response', {'data': message})
     print(f'Moving x: {xstep} y: {ystep}')
 
 

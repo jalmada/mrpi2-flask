@@ -32,7 +32,7 @@ entrypoints==0.3
 envirophat==1.0.0
 ExplorerHAT==0.4.2
 Flask==1.0.2
-Flask-Cors==3.0.8
+Flask-Cors==3.0.9
 Flask-SocketIO==4.2.1
 fourletterphat==0.1.0
 gpiozero==1.5.1
